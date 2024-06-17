@@ -1,0 +1,276 @@
+@charset "UTF-8";
+@import 'https://fonts.googleapis.com/css?family=Overlock:400,400i,700|Oleo+Script';
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@500&family=Poppins:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+:root{
+--red_1:#990003;
+--red_3:#e50005;
+
+--grey_1: #404040;
+--grey_2: #68676c;
+--grey_3: #737373;
+--grey_4: #c1c1c1;
+
+--normal_1: #fff; 
+--normal_2: #000;
+
+
+--font_principal:'Montserrat', sans-serif;
+--font_2:'Poppins', sans-serif;
+--font_3: Arial, Helvetica, sans-serif;
+--font_4:'Open Sans', sans-serif;
+--font_5:'Overlock', Arial, Helvetica, sans-serif;
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+font-size: 1em;
+background: #FCFCFC;
+font-family:'Overlock', Arial, Helvetica, sans-serif;
+color: #323031;
+overflow-x: hidden;
+}
+
+a > .logo{
+position: absolute;
+width: 38%;
+left: 20px;
+top: 2rem;
+cursor: pointer;
+}
+
+header {
+width: 100%;
+height: 100vh;
+background: linear-gradient(to bottom, #5a5a5a -50%, transparent), 
+linear-gradient(0deg, #FCFCFC, transparent 0%), 
+url("../assets/img/background.png");
+background-repeat: no-repeat;
+background-position: center;
+background-size: cover;
+display: flex;
+flex-direction: column;
+justify-content: space-evenly;
+align-items: center;
+}
+
+#container {
+color: #fff;
+text-align: center;
+min-height: 425px;
+width: 280px;
+background-color: rgba(255,255,255,1);
+}
+
+#container > img.logo{
+width: 80%;
+margin-bottom:0rem;
+}
+
+h1 {
+font-size: 1.5rem;
+font-weight: 700;
+letter-spacing: 0.5px;
+color: #747474;
+}
+
+h2{
+color: #747474;
+font-size: 1.2rem; 
+font-weight: 600;
+}
+
+h1, p {
+margin-bottom: 1rem;
+}
+
+p {
+font-size: 14px;
+font-weight: 400;
+color: #747474; 
+}
+section.welcome > p{
+padding: 15px;
+}
+.buttons {
+margin: 0;
+padding: 0;
+display: flex;
+flex-direction: column;
+}
+
+.buttons li {
+list-style-type: none;
+margin-bottom: 1rem;
+margin: auto;
+width: 12rem;
+}
+
+.buttons li:last-child {
+  margin-bottom: 0;
+}
+.buttons a {
+border: solid 2px #fff;
+border-radius: 4px;
+color: #fff;
+display: block;
+font-weight: 600;
+padding: 10px;
+padding: calc(1rem - 2px);
+text-decoration: none;
+transition: all 0.2s ease;
+vertical-align: middle;
+}
+.buttons a:hover {
+background: #ffffff;
+border-color: #737D9C;
+}
+
+.buttons .primary {
+background-color: #315597;
+border-color: #002060;
+border: none;
+height: auto  ;
+width: 100%;
+margin: auto;
+border-bottom: solid 4px #002060;
+color: #fff;
+}
+.buttons .primary:hover {
+  background: #396fd3;
+  border-color: #002060;
+}
+.buttons .primary:active {
+  background: #002060;
+}
+.buttons .minor {
+  border: none;
+  color: #315597;
+  font-weight: 600;
+  display: inline-block;
+  font-size: 16px;
+  padding: 0.5rem;
+}
+.buttons .minor:hover {
+  background: none;
+  color: #918d8d;
+}
+.buttons .disabled {
+  background: none;
+  border: solid 2px #002060;
+  color: #002060;
+  pointer-events: none;
+}
+
+form .field {
+display: flex;
+margin: 0 auto 1rem;
+width: 70%;
+}
+form input[type=password],
+form input[type=text],
+form input[type=submit] {
+border: none;
+border-radius: 4px;
+color: #747474;
+font: inherit;
+padding: 10px;
+width: 90%;
+}
+
+form input[type=password],
+form input[type=text] {
+background-color: #ffffff;
+border: 2px solid #363b41;
+border-radius: 0 4px 4px 0;
+}
+
+form input[type=password]:focus,
+form input[type=password]:hover,
+form input[type=text]:focus,
+form input[type=text]:hover {
+background-color: #cccccc;
+outline: none;
+}
+
+form input[type=submit] {
+  cursor: pointer;
+  font-weight: 600;
+  padding: calc(1rem - 2px);
+  transition: all 0.2s ease;
+}
+form input[type=submit]:focus {
+  background: #F0382C;
+  outline: none;
+}
+form input[type=submit]:active {
+  background: #C0180C;
+}
+
+form label {
+background-color: #363b41;
+border-radius: 4px 0 0 4px;
+padding: 5px;
+font-size: 1.5rem;
+}
+
+.icon {
+display: inline-block;
+fill: #fff;
+height: 1.5rem;
+width: 2rem;
+vertical-align: middle;
+}
+
+.hidden {
+  display: none;
+}
+
+
+
+@media (min-width:650px){
+#container {
+width: 520px;
+min-height: 525px;
+padding: 20px 0;
+}
+    
+#container > img.logo{
+width: 50%;
+margin-bottom:.5rem;
+padding: 10px;
+}
+
+h1 {
+font-size: 2.2rem;
+letter-spacing: 0.125rem;
+}
+
+h1, p {
+margin-bottom: 2rem;
+}
+
+h2{
+  color: #747474;
+  font-size: 1.6rem; 
+  font-weight: 600;
+  }
+p {
+font-size: 1.3rem;
+}
+
+
+}
+
+
+
+
+
