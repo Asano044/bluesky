@@ -1,5 +1,5 @@
 <?php
-include_once("conexao.php");
+include_once ("calculo_horas.php");
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +19,9 @@ include_once("conexao.php");
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -84,7 +86,7 @@ include_once("conexao.php");
           center: 'title',
           right: 'dayGridMonth,list'
         },
-        windowResize: function (arg) {}
+        windowResize: function (arg) { }
       });
       calendar.render();
       calendar.setOption('locale', 'pt');
@@ -123,6 +125,10 @@ include_once("conexao.php");
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Área administrativa</span>
               </a>
+              <a class="dropdown-item d-flex align-items-center" href="filtro_mes_ano.php">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Filtrar Mês e Ano</span>
+              </a>
             </li>
           </ul><!-- Senha Adm -->
         </li><!-- End Profile Nav -->
@@ -130,97 +136,119 @@ include_once("conexao.php");
     </nav><!-- End Icons Navigation -->
   </header><!-- End Header -->
 
-<!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
-  <ul class="sidebar-nav" id="sidebar-nav">
-    <li class="nav-item">
-      <a class="nav-link " href="index.php">
-        <i class="bi bi-grid"></i>
-        <span>Relatório de Voo</span>
-      </a>
-    </li><!-- End Dashboard Nav -->
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="./balanco.php">
-        <i class="bi bi-envelope"></i>
-        <span>Balanço Mensal</span>
-      </a>
-    </li>
-  </ul>
-</aside><!-- End Sidebar-->
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
+    <ul class="sidebar-nav" id="sidebar-nav">
+      <li class="nav-item">
+        <a class="nav-link " href="index.php">
+          <i class="bi bi-grid"></i>
+          <span>Relatório de Voo</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="./balanco.php">
+          <i class="bi bi-envelope"></i>
+          <span>Balanço Mensal</span>
+        </a>
+      </li>
+    </ul>
+  </aside><!-- End Sidebar-->
 
-<main id="main" class="main">
-  <div class="pagetitle">
-    <h1>Relatório de Voo</h1>
-    <nav>
-   
-    </nav>
-  </div><!-- End Page Title -->
+  <main id="main" class="main">
+    <div class="pagetitle">
+      <h1>Relatório de Voo</h1>
+      <nav>
 
-  <section class="section dashboard">
-    <div class="row">
-      <!-- Left side columns -->
-      <div class="col-lg-8">
-        <div class="row">
-          <!-- Card Mês Anterior-->
-          <div class="col-xxl-4 col-md-6">
-            <div class="card info-card sales-card">
-              <div class="card-body">
-                <h5 class="card-title">Horas Mês anterior | <br><span>Dezembro</span></h5>
-                <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class='bx bxs-chevrons-left'></i>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+          <div class="row">
+            <!-- Card Mês Anterior-->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+                <div class="card-body">
+                  <h5 class="card-title">Horas Mês anterior | <br><span><?php echo $mes_anterior ?></span></h5>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class='bx bxs-chevrons-left'></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><?php echo $total_horas_anterior ?></h6>
+                    </div>
                   </div>
-                  <div class="ps-3">
-                    <h6>24:52</h6>
+                </div>
+              </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Card Mês Anterior-->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Horas Mês Atual | <br><span><?php echo $mes ?></span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class='bx bx-alarm'></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><?php echo $total_horas_atuais ?></h6>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Card Mês Anterior-->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Total Horas | <br>
+                    <span>(50 hrs)</span>
+                  </h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class='bx bx-bar-chart-square'></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><?php echo $horas_restantes ?></h6>
+
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div><!-- End Sales Card -->
+            </div> <!-- Card Mês Anterior-->
 
-        <!-- Card Mês Anterior-->
-        <div class="col-xxl-4 col-md-6">
-          <div class="card info-card sales-card">
-  
-            <div class="card-body">
-              <h5 class="card-title">Horas Mês Atual | <br><span>Janeiro</span></h5>
-  
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class='bx bx-alarm'></i>
-                </div>
-                <div class="ps-3">
-                  <h6>24:52</h6>
-  
+            <!-- Card Mês Anterior-->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card sales-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Qtde vezes que resetou | <br>
+                    <span>pós 50 horas</span>
+                  </h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class='bx bx-bar-chart-square'></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6><?php echo $contador ?></h6>
+
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-  
-          </div>
-        </div><!-- End Sales Card -->
+            </div> <!-- Card Mês Anterior-->
 
-         <!-- Card Mês Anterior-->
-         <div class="col-xxl-4 col-md-6">
-          <div class="card info-card sales-card">
-  
-            <div class="card-body">
-              <h5 class="card-title">Total Horas| <br>
-                <span>(50 hrs)</span></h5>
-  
-              <div class="d-flex align-items-center">
-                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                  <i class='bx bx-bar-chart-square'></i>
-                </div>
-                <div class="ps-3">
-                  <h6>24:52</h6>
-  
-                </div>
-              </div>
-            </div>
-  
-          </div>
-        </div> <!-- Card Mês Anterior-->
-          
 
             <!-- Relatorio DEzembro -->
             <div class="col-12">
@@ -228,7 +256,7 @@ include_once("conexao.php");
 
 
                 <div class="card-body">
-                  <h5 class="card-title">Relatório<span>| Dezembro/2023</span></h5>
+                  <h5 class="card-title">Relatório <span>| <?php echo "$mes/$ano" ?></span></h5>
 
 
                   <table class="table table-borderless datatable">
@@ -244,8 +272,8 @@ include_once("conexao.php");
                     </thead>
 
                     <tbody>
-                      <tr class="t-voo">
-                        <td >10/01/2024</td>
+                      <!-- <tr class="t-voo">
+                        <td>10/01/2024</td>
                         <td>JANEIRO</td>
                         <td>SÃO PAULO</td>
                         <td>TAUBATÉ</td>
@@ -253,60 +281,49 @@ include_once("conexao.php");
                         <td><span class="badge bg-primary">00:30:00</span></td>
                       </tr>
                       <tr class="t-voo">
-                        <td >10/01/2024</td>
+                        <td>10/01/2024</td>
                         <td>JANEIRO</td>
                         <td>SÃO PAULO</td>
                         <td>TAUBATÉ</td>
                         <td><span class="badge bg-primary">Blue Sky</span></td>
                         <td><span class="badge bg-primary">00:30:00</span></td>
-                      </tr>
-                      <tr class="t-voo">
-                        <td >10/01/2024</td>
-                        <td>JANEIRO</td>
-                        <td>SÃO PAULO</td>
-                        <td>TAUBATÉ</td>
-                        <td><span class="badge bg-primary">Blue Sky</span></td>
-                        <td><span class="badge bg-primary">00:30:00</span></td>
-                      </tr>
-                      <tr class="t-voo">
-                        <td >10/01/2024</td>
-                        <td>JANEIRO</td>
-                        <td>SÃO PAULO</td>
-                        <td>TAUBATÉ</td>
-                        <td><span class="badge bg-primary">Blue Sky</span></td>
-                        <td><span class="badge bg-primary">00:30:00</span></td>
-                      </tr>
-                      <tr class="t-voo">
-                        <td >10/01/2024</td>
-                        <td>JANEIRO</td>
-                        <td>SÃO PAULO</td>
-                        <td>TAUBATÉ</td>
-                        <td><span class="badge bg-primary">Blue Sky</span></td>
-                        <td><span class="badge bg-primary">00:30:00</span></td>
-                      </tr>
-                      <tr class="t-voo">
-                        <td >10/01/2024</td>
-                        <td>JANEIRO</td>
-                        <td>SÃO PAULO</td>
-                        <td>TAUBATÉ</td>
-                        <td><span class="badge bg-primary">Blue Sky</span></td>
-                        <td><span class="badge bg-primary">00:30:00</span></td>
-                      </tr>
-                      <tr class="t-voo">
-                        <td >10/01/2024</td>
-                        <td>JANEIRO</td>
-                        <td>SÃO PAULO</td>
-                        <td>TAUBATÉ</td>
-                        <td><span class="badge bg-primary">Blue Sky</span></td>
-                        <td><span class="badge bg-primary">00:30:00</span></td>
+                      </tr> -->
+                      <?php
+
+                      if ($mes != "todos" and $ano != "todos") {
+                        $consulta_voo = "SELECT data_voo, mes, partida, destino, solicitante, tempo_voo FROM horas_voadas WHERE MONTH(data_voo) = $mes AND YEAR(data_voo) = $ano";
+
+                      } else if ($mes == "todos" and $ano != "todos") {
+                        $consulta_voo = "SELECT data_voo, mes, partida, destino, solicitante, tempo_voo FROM horas_voadas WHERE YEAR(data_voo) = $ano";
+
+                      } else if ($mes != "todos" and $ano == "todos") {
+                        $consulta_voo = "SELECT data_voo, mes, partida, destino, solicitante, tempo_voo FROM horas_voadas WHERE MONTH(data_voo) = $mes";
+
+                      } else {
+                        $consulta_voo = "SELECT data_voo, mes, partida, destino, solicitante, tempo_voo FROM horas_voadas";
+                      }
+                      $query_voo = mysqli_query($mysqli, $consulta_voo) or die(mysqli_error($mysqli));
+                      while ($linha = mysqli_fetch_array($query_voo)) {
+                        ?>
+                        <tr class="t-voo">
+                          <td><?php echo $linha['data_voo'] ?></td>
+                          <td><?php echo $linha['mes'] ?></td>
+                          <td><?php echo $linha['partida'] ?></td>
+                          <td><?php echo $linha['destino'] ?></td>
+                          <td><span class="badge bg-primary"><?php echo $linha['solicitante'] ?></span></td>
+                          <td><span class="badge bg-primary"><?php echo $linha['tempo_voo'] ?></span></td>
+                        </tr>
+                        <?php
+                      }
+                      ?>
+
+                      <!-- Linha com o total de horas -->
+                      <tr>
+                        <td colspan="5" style="text-align: right; color: #012970; font-size: 13px;"><b>Total horas:</b>
+                        </td>
+                        <td style="color: #012970; font-size: 13px;"><b><?php echo $total_horas_atuais ?></b></td>
                       </tr>
 
-                         <!-- Linha com o total de horas -->
-                        <tr>
-                          <td colspan="5" style="text-align: right; color: #012970; font-size: 13px;"><b>Total horas:</b></td>
-                          <td style="color: #012970; font-size: 13px;"><b>03:30:00</b></td>
-                        </tr>
-   
                     </tbody>
                   </table>
 
@@ -314,70 +331,70 @@ include_once("conexao.php");
 
               </div>
             </div><!-- End Relatorio DEzembro -->
-         
+
           </div>
         </div><!-- colunas lado dir. -->
 
-          <!-- Coluna do lado direito -->
-          <div class="col-lg-4">
-        
-            <div class="container_calender">
-              <div id='calendar'></div>
-            </div>
-        
+        <!-- Coluna do lado direito -->
+        <div class="col-lg-4">
+
+          <div class="container_calender">
+            <div id='calendar'></div>
           </div>
-        
-          <!-- Outra coluna do lado direito -->
-          <div class="col-lg-4">
-            <div class="card">
-              <div class="card-body radial">
-                <h5 class="card-title">Gráfico de Barra Radial</h5>
-        
-                <!-- Gráfico de Barra Radial -->
-                <div id="radialBarChart"></div>
-        
-                <script>
-                  document.addEventListener("DOMContentLoaded", () => {
-                    new ApexCharts(document.querySelector("#radialBarChart"), {
-                      series: [44, 55, 67, 83],
-                      chart: {
-                        height: 240,
-                        type: 'radialBar',
-                        toolbar: {
-                          show: true
-                        }
-                      },
-                      plotOptions: {
-                        radialBar: {
-                          dataLabels: {
-                            name: {
-                              fontSize: '22px',
-                            },
-                            value: {
-                              fontSize: '16px',
-                            },
-                            total: {
-                              show: true,
-                              label: 'Total',
-                              formatter: function(w) {
-                                // Por padrão, essa função retorna a média de todas as séries. O exemplo abaixo mostra o uso de um formato personalizado.
-                                return 249;
-                              }
+
+        </div>
+
+        <!-- Outra coluna do lado direito -->
+        <div class="col-lg-4">
+          <div class="card">
+            <div class="card-body radial">
+              <h5 class="card-title">Gráfico de Barra Radial</h5>
+
+              <!-- Gráfico de Barra Radial -->
+              <div id="radialBarChart"></div>
+
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  new ApexCharts(document.querySelector("#radialBarChart"), {
+                    series: [44, 55, 67, 83],
+                    chart: {
+                      height: 240,
+                      type: 'radialBar',
+                      toolbar: {
+                        show: true
+                      }
+                    },
+                    plotOptions: {
+                      radialBar: {
+                        dataLabels: {
+                          name: {
+                            fontSize: '22px',
+                          },
+                          value: {
+                            fontSize: '16px',
+                          },
+                          total: {
+                            show: true,
+                            label: 'Total',
+                            formatter: function (w) {
+                              // Por padrão, essa função retorna a média de todas as séries. O exemplo abaixo mostra o uso de um formato personalizado.
+                              return 249;
                             }
                           }
                         }
-                      },
-                      labels: [],
-                    }).render();
-                  });
-                </script>
-                <!-- Fim do Gráfico de Barra Radial -->
-        
-              </div>
+                      }
+                    },
+                    labels: [],
+                  }).render();
+                });
+              </script>
+              <!-- Fim do Gráfico de Barra Radial -->
+
             </div>
           </div>
-        
-      
+        </div>
+
+
         <div class="col-lg-4">
           <div class="card">
             <div class="card-body">
@@ -408,112 +425,114 @@ include_once("conexao.php");
         </div>
 
 
-<div class="col-lg-12 title">
-  <h2>Descritivo de Abastecimento</h2>
-</div>
-       
- <!-- Table with stripped rows -->
- <table class="table datatable">
-  <thead>
-    <tr>
-      <th>
-        <b>D</b>ata
-      </th>
-      <th>Local</th>
-      <th>Solicitante</th>
-      <th>NF</th>
-      <th>Valor</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>18/12/2023</td>
-      <td>Ubatuba</td>
-      <td>Pedro</td>
-      <td>NF8593</td>
-      <td>2594</td>
-    </tr>
-    
-    <tr>
-      <td>18/12/2023</td>
-      <td>Ubatuba</td>
-      <td>Pedro</td>
-      <td>NF8593</td>
-      <td>2594</td>
-    </tr>
-    
-    <tr>
-      <td>18/12/2023</td>
-      <td>Ubatuba</td>
-      <td>Pedro</td>
-      <td>NF8593</td>
-      <td>2594</td>
-    </tr>
-    
-    <tr>
-      <td>18/12/2023</td>
-      <td>Ubatuba</td>
-      <td>Pedro</td>
-      <td>NF8593</td>
-      <td>2594</td>
-    </tr>
-    
-    <tr>
-      <td>18/12/2023</td>
-      <td>Ubatuba</td>
-      <td>Pedro</td>
-      <td>NF8593</td>
-      <td>2594</td>
-    </tr>
-    
-    <tr>
-      <td>18/12/2023</td>
-      <td>Ubatuba</td>
-      <td>Pedro</td>
-      <td>NF8593</td>
-      <td>2594</td>
-    </tr>
-    
-    <tr>
-      <td>18/12/2023</td>
-      <td>Ubatuba</td>
-      <td>Pedro</td>
-      <td>NF8593</td>
-      <td>2594</td>
-    </tr>
-    
-    <tr>
-      <td>18/12/2023</td>
-      <td>Ubatuba</td>
-      <td>Pedro</td>
-      <td>NF8593</td>
-      <td>2594</td>
-    </tr>
-    
-    <tr>
-      <td>18/12/2023</td>
-      <td>Ubatuba</td>
-      <td>Pedro</td>
-      <td>NF8593</td>
-      <td>2594</td>
-    </tr>
+        <div class="col-lg-12 title">
+          <h2>Descritivo de Abastecimento</h2>
+        </div>
 
-      <!-- Linha com o total -->
-      <tr>
-        <td colspan="4" style="text-align: right; color: #012970;"><b>Total:</b></td>
-        <td style="color: #012970;"><b>23346</b></td>
-      </tr>
-    
-  </tbody>
-</table>
+        <!-- Table with stripped rows -->
+        <table class="table datatable">
+          <thead>
+            <tr>
+              <th>
+                <b>D</b>ata
+              </th>
+              <th>Local</th>
+              <th>Solicitante</th>
+              <th>NF</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>18/12/2023</td>
+              <td>Ubatuba</td>
+              <td>Pedro</td>
+              <td>NF8593</td>
+              <td>2594</td>
+            </tr>
+
+            <tr>
+              <td>18/12/2023</td>
+              <td>Ubatuba</td>
+              <td>Pedro</td>
+              <td>NF8593</td>
+              <td>2594</td>
+            </tr>
+
+            <tr>
+              <td>18/12/2023</td>
+              <td>Ubatuba</td>
+              <td>Pedro</td>
+              <td>NF8593</td>
+              <td>2594</td>
+            </tr>
+
+            <tr>
+              <td>18/12/2023</td>
+              <td>Ubatuba</td>
+              <td>Pedro</td>
+              <td>NF8593</td>
+              <td>2594</td>
+            </tr>
+
+            <tr>
+              <td>18/12/2023</td>
+              <td>Ubatuba</td>
+              <td>Pedro</td>
+              <td>NF8593</td>
+              <td>2594</td>
+            </tr>
+
+            <tr>
+              <td>18/12/2023</td>
+              <td>Ubatuba</td>
+              <td>Pedro</td>
+              <td>NF8593</td>
+              <td>2594</td>
+            </tr>
+
+            <tr>
+              <td>18/12/2023</td>
+              <td>Ubatuba</td>
+              <td>Pedro</td>
+              <td>NF8593</td>
+              <td>2594</td>
+            </tr>
+
+            <tr>
+              <td>18/12/2023</td>
+              <td>Ubatuba</td>
+              <td>Pedro</td>
+              <td>NF8593</td>
+              <td>2594</td>
+            </tr>
+
+            <tr>
+              <td>18/12/2023</td>
+              <td>Ubatuba</td>
+              <td>Pedro</td>
+              <td>NF8593</td>
+              <td>2594</td>
+            </tr>
+
+            <!-- Linha com o total -->
+            <tr>
+              <td colspan="4" style="text-align: right; color: #012970;"><b>Total:</b></td>
+              <td style="color: #012970;"><b>23346</b></td>
+            </tr>
+
+          </tbody>
+        </table>
 
 
-<div class="col-lg-12 observacao">
-<h3>Observações: </h3>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, labore? Minima, natus at obcaecati dolore deserunt sapiente, perferendis vel vitae amet adipisci labore aliquam necessitatibus laborum consectetur. Distinctio, nam eos.</p>
-</div>
-        
-</section>
+        <div class="col-lg-12 observacao">
+          <h3>Observações: </h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, labore? Minima, natus at obcaecati dolore
+            deserunt sapiente, perferendis vel vitae amet adipisci labore aliquam necessitatibus laborum consectetur.
+            Distinctio, nam eos.</p>
+        </div>
+
+    </section>
 
   </main><!-- End #main -->
 
@@ -523,12 +542,13 @@ include_once("conexao.php");
       &copy; Copyright <strong><span>Blue Sky</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
-     
+
       Designed by <a href="https://www.instagram.com/canbe_digital/">Can Be Digital</a>
     </div>
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
