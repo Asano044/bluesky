@@ -443,77 +443,30 @@ include_once ("calculo_horas.php");
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <!-- <tr>
               <td>18/12/2023</td>
               <td>Ubatuba</td>
               <td>Pedro</td>
               <td>NF8593</td>
               <td>2594</td>
-            </tr>
+            </tr> -->
 
-            <tr>
-              <td>18/12/2023</td>
-              <td>Ubatuba</td>
-              <td>Pedro</td>
-              <td>NF8593</td>
-              <td>2594</td>
-            </tr>
+            <?php 
+              $consulta_abastecimento = "SELECT data_abastecimento, local, solicitante, nf, data_vencimento, valor FROM abastecimentos";
+              $query_abastecimento = mysqli_query($mysqli, $consulta_abastecimento) or die(mysqli_error($mysqli));
 
-            <tr>
-              <td>18/12/2023</td>
-              <td>Ubatuba</td>
-              <td>Pedro</td>
-              <td>NF8593</td>
-              <td>2594</td>
-            </tr>
-
-            <tr>
-              <td>18/12/2023</td>
-              <td>Ubatuba</td>
-              <td>Pedro</td>
-              <td>NF8593</td>
-              <td>2594</td>
-            </tr>
-
-            <tr>
-              <td>18/12/2023</td>
-              <td>Ubatuba</td>
-              <td>Pedro</td>
-              <td>NF8593</td>
-              <td>2594</td>
-            </tr>
-
-            <tr>
-              <td>18/12/2023</td>
-              <td>Ubatuba</td>
-              <td>Pedro</td>
-              <td>NF8593</td>
-              <td>2594</td>
-            </tr>
-
-            <tr>
-              <td>18/12/2023</td>
-              <td>Ubatuba</td>
-              <td>Pedro</td>
-              <td>NF8593</td>
-              <td>2594</td>
-            </tr>
-
-            <tr>
-              <td>18/12/2023</td>
-              <td>Ubatuba</td>
-              <td>Pedro</td>
-              <td>NF8593</td>
-              <td>2594</td>
-            </tr>
-
-            <tr>
-              <td>18/12/2023</td>
-              <td>Ubatuba</td>
-              <td>Pedro</td>
-              <td>NF8593</td>
-              <td>2594</td>
-            </tr>
+              while ($linha = mysqli_fetch_array($query_abastecimento)) {
+                ?>
+                <tr>
+                  <td><?php echo $linha['data_abastecimento'] ?></td>
+                  <td><?php echo $linha['local'] ?></td>
+                  <td><?php echo $linha['solicitante'] ?></td>
+                  <td><?php echo $linha['nf'] ?></td>
+                  <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
+                </tr>
+                <?php
+              }
+            ?>
 
             <!-- Linha com o total -->
             <tr>

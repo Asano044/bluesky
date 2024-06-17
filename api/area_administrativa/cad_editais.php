@@ -97,10 +97,6 @@ include_once("session_login.php");
                     <option value="Pedro">Pedro</option>
                     <option value="Ivan">Ivan</option>
                     <option value="Charles">Charles</option>
-                    <option value="Pedro, Ivan">Pedro, Ivan</option>
-                    <option value="Pedro, Charles">Pedro, Charles</option>
-                    <option value="Ivan, Charles">Ivan, Charles</option>
-                    <option value="Pedro, Charles, Ivan">Pedro, Ivan, Charles</option>
                     <option value="Blue Sky">Blue Sky</option>
                   </select>
                 </div>
