@@ -1,5 +1,6 @@
 <?php
-include_once ("calculo_horas.php");
+include_once("calculo_horas.php");
+include_once('porcentagem_pessoas.php');
 ?>
 
 <!DOCTYPE html>
@@ -92,6 +93,55 @@ include_once ("calculo_horas.php");
       calendar.setOption('locale', 'pt');
     });
   </script>
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+      var data = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+        ['Hora Restante', <?php echo $segundos_restantes ?>],
+        ['Hora Utilizada', <?php echo $segundos_utilizados ?>],
+      ]);
+
+
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+      chart.draw(data);
+    }
+  </script>
+
+<script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Pedro',     <?php echo $segundos_pedro?>],
+          ['Ivan',      <?php echo $segundos_ivan?>],
+          ['Charles',  <?php echo $segundos_charles?>],
+          ['Blue Sky', <?php echo $segundos_bluesky?>],
+          ['Ivan, Charles, Pedro', <?php echo $segundos_dividir3?>],
+          ['Pedro, Ivan', <?php echo $segundos_dividir2_pedro?>],
+          ['Pedro, Charles', <?php echo $segundos_dividir2_charles?>],
+          ['Charles, Ivan', <?php echo $segundos_dividir2_charles?>],
+          ['Ivan, Charles', <?php echo $segundos_dividir2_ivan?>],
+
+
+        ]);
+
+        var options = {
+          title: 'Porcentagem que gastaram',
+          pieHole: 0.4,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
+    </script>
 </head>
 
 <body>
@@ -242,7 +292,6 @@ include_once ("calculo_horas.php");
                     </div>
                     <div class="ps-3">
                       <h6><?php echo $contador ?></h6>
-
                     </div>
                   </div>
                 </div>
@@ -270,24 +319,7 @@ include_once ("calculo_horas.php");
                         <th scope="col">Tempo de voo</th>
                       </tr>
                     </thead>
-
                     <tbody>
-                      <!-- <tr class="t-voo">
-                        <td>10/01/2024</td>
-                        <td>JANEIRO</td>
-                        <td>SÃO PAULO</td>
-                        <td>TAUBATÉ</td>
-                        <td><span class="badge bg-primary">Blue Sky</span></td>
-                        <td><span class="badge bg-primary">00:30:00</span></td>
-                      </tr>
-                      <tr class="t-voo">
-                        <td>10/01/2024</td>
-                        <td>JANEIRO</td>
-                        <td>SÃO PAULO</td>
-                        <td>TAUBATÉ</td>
-                        <td><span class="badge bg-primary">Blue Sky</span></td>
-                        <td><span class="badge bg-primary">00:30:00</span></td>
-                      </tr> -->
                       <?php
 
                       if ($mes != "todos" and $ano != "todos") {
@@ -348,46 +380,10 @@ include_once ("calculo_horas.php");
         <div class="col-lg-4">
           <div class="card">
             <div class="card-body radial">
-              <h5 class="card-title">Gráfico de Barra Radial</h5>
+              <h5 class="card-title">Gráfico de Horas Restantes</h5>
 
               <!-- Gráfico de Barra Radial -->
-              <div id="radialBarChart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new ApexCharts(document.querySelector("#radialBarChart"), {
-                    series: [44, 55, 67, 83],
-                    chart: {
-                      height: 240,
-                      type: 'radialBar',
-                      toolbar: {
-                        show: true
-                      }
-                    },
-                    plotOptions: {
-                      radialBar: {
-                        dataLabels: {
-                          name: {
-                            fontSize: '22px',
-                          },
-                          value: {
-                            fontSize: '16px',
-                          },
-                          total: {
-                            show: true,
-                            label: 'Total',
-                            formatter: function (w) {
-                              // Por padrão, essa função retorna a média de todas as séries. O exemplo abaixo mostra o uso de um formato personalizado.
-                              return 249;
-                            }
-                          }
-                        }
-                      }
-                    },
-                    labels: [],
-                  }).render();
-                });
-              </script>
+              <div id="piechart" style="width: 275px; height: 250px;"></div>
               <!-- Fim do Gráfico de Barra Radial -->
 
             </div>
@@ -398,26 +394,10 @@ include_once ("calculo_horas.php");
         <div class="col-lg-4">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Donut Chart</h5>
+              <h5 class="card-title">Gasto de Cada Pessoa</h5>
 
               <!-- Donut Chart -->
-              <div id="donutChart"></div>
-
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new ApexCharts(document.querySelector("#donutChart"), {
-                    series: [44, 55, 13, 43, 22],
-                    chart: {
-                      height: 219,
-                      type: 'donut',
-                      toolbar: {
-                        show: true
-                      }
-                    },
-                    labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
-                  }).render();
-                });
-              </script>
+              <div id="donutchart" style="width: 275px; height: 250px;"></div>
               <!-- End Donut Chart -->
 
             </div>
@@ -443,35 +423,28 @@ include_once ("calculo_horas.php");
             </tr>
           </thead>
           <tbody>
-            <!-- <tr>
-              <td>18/12/2023</td>
-              <td>Ubatuba</td>
-              <td>Pedro</td>
-              <td>NF8593</td>
-              <td>2594</td>
-            </tr> -->
+            <?php
+            $consulta_abastecimento = "SELECT data_abastecimento, local, solicitante, nf, data_vencimento, valor FROM abastecimentos";
+            $query_abastecimento = mysqli_query($mysqli, $consulta_abastecimento) or die(mysqli_error($mysqli));
 
-            <?php 
-              $consulta_abastecimento = "SELECT data_abastecimento, local, solicitante, nf, data_vencimento, valor FROM abastecimentos";
-              $query_abastecimento = mysqli_query($mysqli, $consulta_abastecimento) or die(mysqli_error($mysqli));
-
-              while ($linha = mysqli_fetch_array($query_abastecimento)) {
-                ?>
-                <tr>
-                  <td><?php echo $linha['data_abastecimento'] ?></td>
-                  <td><?php echo $linha['local'] ?></td>
-                  <td><?php echo $linha['solicitante'] ?></td>
-                  <td><?php echo $linha['nf'] ?></td>
-                  <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
-                </tr>
-                <?php
-              }
+            $valor_total = 0;
+            while ($linha = mysqli_fetch_array($query_abastecimento)) {
+              $valor_total += $linha['valor'];
+              ?>
+              <tr>
+                <td><?php echo $linha['data_abastecimento'] ?></td>
+                <td><?php echo $linha['local'] ?></td>
+                <td><?php echo $linha['solicitante'] ?></td>
+                <td><?php echo $linha['nf'] ?></td>
+                <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
+              </tr>
+              <?php
+            }
             ?>
-
             <!-- Linha com o total -->
             <tr>
               <td colspan="4" style="text-align: right; color: #012970;"><b>Total:</b></td>
-              <td style="color: #012970;"><b>23346</b></td>
+              <td style="color: #012970;"><b><?php echo number_format($valor_total, 2, ",", ".") ?></b></td>
             </tr>
 
           </tbody>
