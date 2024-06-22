@@ -1,6 +1,17 @@
 <?php
 include_once ("calculo_horas.php");
 include_once ('porcentagem_pessoas.php');
+
+if ($mes == null) {
+  $mes = 'todos';
+}
+if ($ano == null) {
+  $ano = 'todos';
+}
+
+if ($_SESSION['mes_anterior'] == null) {
+  $_SESSION['mes_anterior'] = 'todos';
+}
 ?>
 
 <!DOCTYPE html>
@@ -134,12 +145,10 @@ include_once ('porcentagem_pessoas.php');
         ['Pedro, Charles', <?php echo $segundos_dividir2_charles ?>],
         ['Charles, Ivan', <?php echo $segundos_dividir2_charles ?>],
         ['Ivan, Charles', <?php echo $segundos_dividir2_ivan ?>],
-
-
       ]);
 
       var options = {
-        title: 'Porcentagem que gastaram',
+        title: '',
         pieHole: 0.4,
       };
 
@@ -179,10 +188,6 @@ include_once ('porcentagem_pessoas.php');
               <a class="dropdown-item d-flex align-items-center" href="./area_administrativa/index.php">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Área administrativa</span>
-              </a>
-              <a class="dropdown-item d-flex align-items-center" href="filtro_mes_ano.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Filtrar Mês e Ano</span>
               </a>
             </li>
           </ul><!-- Senha Adm -->
@@ -253,7 +258,8 @@ include_once ('porcentagem_pessoas.php');
                   <div class="icon_one">
                     <i class='bx bxs-chevrons-left'></i>
                   </div>
-                  <p class="title_card"><?php echo $total_horas_anterior ?></p>
+                  <p class="title_card"><?php echo $total_horas_anterior;
+                  echo $_SESSION['mes'] ?></p>
                 </div>
               </div>
             </div>
@@ -285,41 +291,64 @@ include_once ('porcentagem_pessoas.php');
               </div>
             </div>
 
-
             <div class="col-lg-8 box_select">
 
               <div class="select_mes">
                 <h3>Selecione o mês</h3>
-                <form>
-                  <select class="form-select form-select-sm mt-3">
-                    <option>Todos</option>
-                    <option>Janeiro</option>
-                    <option>Fevereiro</option>
-                    <option>Março</option>
-                    <option>Abril</option>
-                    <option>Maio</option>
-                    <option>Junho</option>
-                    <option>Julho</option>
-                    <option>Agosto</option>
-                    <option>Setembro</option>
-                    <option>Outubro</option>
-                    <option>Novembro</option>
-                    <option>Dezembro</option>
+                <form method="get" action="index.php">
+                  <select class="form-select form-select-sm mt-3" name="mes_voo">
+                    <option value="todos">Todos</option>
+                    <?php
+                    $consulta_mes = "SELECT DISTINCTROW(MONTH(data_voo)) as mes_voo FROM horas_voadas";
+                    $query_mes = mysqli_query($mysqli, $consulta_mes) or die(mysqli_error($mysqli));
+                    while ($linha = mysqli_fetch_array($query_mes)) {
+                      ?>
+                      <option value="<?php echo $linha['mes_voo'] ?>"><?php echo $linha['mes_voo'] ?></option>
+                      <?php
+                    }
+                    ?>
                   </select>
-                </form>
-
               </div>
+
               <div class="select_ano">
                 <h3>Selecione o ano</h3>
-                <form>
-                  <select class="form-select form-select-sm mt-3">
-                    <option>Todos</option>
-                    <option>2023</option>
-                    <option>2024</option>
-                  </select>
-                </form>
+                <select class="form-select form-select-sm mt-3" name="ano_voo">
+                  <option value="todos">Todos</option>
+                  <?php
+                  $consulta_ano = "SELECT DISTINCTROW(YEAR(data_voo)) as ano_voo FROM horas_voadas";
+                  $query_ano = mysqli_query($mysqli, $consulta_ano) or die(mysqli_error($mysqli));
+                  while ($linha = mysqli_fetch_array($query_ano)) {
+                    ?>
+                    <option value="<?php echo $linha['ano_voo'] ?>"><?php echo $linha['ano_voo'] ?></option>
+                    <?php
+                  }
+                  ?>
+                </select>
               </div>
 
+              <input type="submit" value="Enviar" name="filtrar_btn">
+
+
+              </form>
+              <?php
+              if (isset($_GET['filtrar_btn'])) {
+                $mes = $_GET['mes_voo'];
+                $ano = $_GET['ano_voo'];
+
+                $_SESSION['mes'] = $mes;
+                $_SESSION['ano'] = $ano;
+
+                if ($_SESSION['mes'] != "todos") {
+                  if ($_SESSION['mes'] - 1 == 0) {
+                    $_SESSION['mes_anterior'] = 12;
+                  } else {
+                    $_SESSION['mes_anterior'] = $_SESSION['mes'] - 1;
+                  }
+                } else {
+                  $_SESSION['mes_anterior'] = "todos";
+                }
+              }
+              ?>
             </div>
 
 

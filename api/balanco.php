@@ -41,6 +41,30 @@ include_once ("calculo_balanco.php");
   <!-- JS Files -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5/main.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Work',     11],
+          ['Eat',      2],
+          ['Commute',  2],
+          ['Watch TV', 2],
+          ['Sleep',    7]
+        ]);
+
+        var options = {
+          title: 'My Daily Activities',
+          pieHole: 0.4,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
+    </script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -128,10 +152,6 @@ include_once ("calculo_balanco.php");
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Área administrativa</span>
               </a>
-              <a class="dropdown-item d-flex align-items-center" href="filtro_mes_ano.php">
-                <i class="bi bi-box-arrow-right"></i>
-                <span>Filtro Mês e Ano</span>
-              </a>
             </li>
         </li>
       </ul><!-- Senha Adm -->
@@ -197,135 +217,189 @@ include_once ("calculo_balanco.php");
 
         <!-- Left side columns -->
         <div class="col-lg-8">
-          <div class="filter_balanco">
-            <div class="mes">
-              <h3>Selecione o mês</h3>
-              <form>
-                <select class="form-select form-select-sm mt-3">
-                  <option>Todos</option>
-                  <option>Janeiro</option>
-                  <option>Fevereiro</option>
-                  <option>Março</option>
-                  <option>Abril</option>
-                  <option>Maio</option>
-                  <option>Junho</option>
-                  <option>Julho</option>
-                  <option>Agosto</option>
-                  <option>Setembro</option>
-                  <option>Outubro</option>
-                  <option>Novembro</option>
-                  <option>Dezembro</option>
-                </select>
-              </form>
-            </div>
-
-            <div class="ano">
-              <h3>Selecione o ano</h3>
-              <form>
-                <select class="form-select form-select-sm mt-3">
-                  <option>Todos</option>
-                  <option>2023</option>
-                  <option>2024</option>
-                </select>
-              </form>
-            </div>
-
-            <div class="tipo">
-              <h3>Selecione o Tipo</h3>
-              <form>
-                <select class="form-select form-select-sm mt-3">
-                  <option>Tipo</option>
-                  <option>Despesas Fixa</option>
-                  <option>Despesas Váriaveis</option>
-                  <option>Receitas</option>
-                </select>
-              </form>
-            </div>
-
-            <button type="button" class="btn btn-outline-primary shadow-custom botao_sel">Enviar</button>
-          </div>
-
-          <div class="row">
-            <!-- Despesas Fixas -->
-            <div class="col-12">
-              <div class="card recent-sales overflow-auto">
-                <div class="card-body">
-                  <h5 class="card-title" style="color: red;">Tabela Financeira<span>| <?php echo "$mes/$ano" ?></span>
-                  </h5>
-                  <!-- Tabela com linhas listradas -->
-                  <table class="table datatable">
-                    <thead>
-                      <tr>
-                        <th><b>D</b>ata</th>
-                        <th>Descrição</th>
-                        <th>Tipo</th>
-                        <th>Valor</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <?php
-                      if ($mes != "todos" and $ano != "todos") {
-                        $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE MONTH(data_financeiro) = $mes AND YEAR(data_financeiro) = $ano";
-                      } else if ($mes == "todos" and $ano != "todos") {
-                        $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE YEAR(data_financeiro) = $ano";
-                      } else if ($mes != "todos" and $ano == "todos") {
-                        $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE MONTH(data_financeiro) = $mes";
-                      } else {
-                        $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro";
-                      }
-                      $query_financ = mysqli_query($mysqli, $consulta_financ) or die(mysqli_error($mysqli));
-                      $balanco = 0;
-                      while ($linha = mysqli_fetch_array($query_financ)) {
-                        $balanco += $linha['valor'];
-                        ?>
-                        <tr>
-                          <td><?php echo $linha['data_financeiro'] ?></td>
-                          <td><?php echo $linha['descricao'] ?></td>
-                          <td><?php echo $linha['tipo'] ?></td>
-                          <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
-                        </tr>
-                        <?php
-                      }
+          <form method="get" action="balanco.php">
+            <div class="filter_balanco">
+                <div class="mes">
+                  <h3>Selecione o mês</h3>
+                  <select class="form-select form-select-sm mt-3" name="mes_financ">
+                    <option value="todos">Todos</option>
+                    <?php
+                    $consulta_mes = "SELECT DISTINCTROW(MONTH(data_financeiro)) AS mes_financeiro FROM financeiro";
+                    $query_mes = mysqli_query($mysqli, $consulta_mes) or die(mysqli_error($mysqli));
+                    while ($linha = mysqli_fetch_array($query_mes)) {
                       ?>
-
-                      <td></td>
-                      <td colspan="3" style="text-align: right;"><b>TOTAL:
-                          <?php echo number_format($balanco, 2, ",", ".") ?></b></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                      <option value="<?php echo $linha['mes_financeiro'] ?>"><?php echo $linha['mes_financeiro'] ?>
+                      </option>
+                      <?php
+                    }
+                    ?>
+                  </select>
                 </div>
-              </div>
-            </div><!-- End Despesas Fixas -->
 
+                <div class="ano">
+                  <h3>Selecione o ano</h3>
+                  <select class="form-select form-select-sm mt-3" name="ano_financ">
+                    <option value="todos">Todos</option>
+                    <?php
+                    $consulta_ano = "SELECT DISTINCTROW(YEAR(data_financeiro)) AS ano_financeiro FROM financeiro";
+                    $query_ano = mysqli_query($mysqli, $consulta_ano) or die(mysqli_error($mysqli));
+                    while ($linha = mysqli_fetch_array($query_ano)) {
+                      ?>
+                      <option value="<?php echo $linha['ano_financeiro'] ?>"><?php echo $linha['ano_financeiro'] ?>
+                      </option>
+                      <?php
+                    }
+                    ?>
+                  </select>
+                </div>
+                <input type="submit" class="btn btn-outline-primary shadow-custom botao_sel" name="filtrar_btn">
+              </form>
+
+              <?php
+              if (isset($_GET['filtrar_btn'])) {
+                $mes = $_GET['mes_financ'];
+                $ano = $_GET['ano_financ'];
+
+                $_SESSION['mes'] = $mes;
+                $_SESSION['ano'] = $ano;
+              }
+              ?>
+
+            </div>
 
             <div class="row">
-              <div class="col-lg-6">
-                <div class="card">
+              <!-- Tabela despesas -->
+              <div class="col-12">
+                <div class="card recent-sales overflow-auto">
                   <div class="card-body">
-                    <h5 class="card-title balanco">Balanço do Mês Anterior:</h5>
+                    <h5 class="card-title" style="color: red;">Tabela dos Gastos<span>| <?php echo "$mes/$ano" ?></span>
+                    </h5>
+                    <!-- Tabela com linhas listradas -->
+                    <table class="table datatable">
+                      <thead>
+                        <tr>
+                          <th><b>D</b>ata</th>
+                          <th>Descrição</th>
+                          <th>Tipo</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                        if ($mes != "todos" and $ano != "todos") {
+                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo = 'FIXO' OR tipo = 'VARIAVEL' AND MONTH(data_financeiro) = $mes AND YEAR(data_financeiro) = $ano";
+                        } else if ($mes == "todos" and $ano != "todos") {
+                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo = 'FIXO' OR tipo = 'VARIAVEL' AND YEAR(data_financeiro) = $ano";
+                        } else if ($mes != "todos" and $ano == "todos") {
+                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo = 'FIXO' OR tipo = 'VARIAVEL' AND MONTH(data_financeiro) = $mes";
+                        } else {
+                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo = 'FIXO' OR TIPO = 'VARIAVEL'";
+                        }
+                        $query_financ = mysqli_query($mysqli, $consulta_financ) or die(mysqli_error($mysqli));
+                        $balanco = 0;
+                        while ($linha = mysqli_fetch_array($query_financ)) {
+                          $balanco += $linha['valor'];
+                          ?>
+                          <tr>
+                            <td><?php echo $linha['data_financeiro'] ?></td>
+                            <td><?php echo $linha['descricao'] ?></td>
+                            <td><?php echo $linha['tipo'] ?></td>
+                            <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
+                          </tr>
+                          <?php
+                        }
+                        ?>
 
-                    <h3 class="vl_bal">R$ <?php echo number_format($balanco_anterior, 2, ",", ".") ?></h3>
+                        <td></td>
+                        <td colspan="3" style="text-align: right;"><b>TOTAL:
+                            <?php echo number_format($balanco, 2, ",", ".") ?></b></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div><!-- End Despesas Fixas -->
 
+              <!-- Tabela despesas -->
+              <div class="col-12">
+                <div class="card recent-sales overflow-auto">
+                  <div class="card-body">
+                    <h5 class="card-title" style="color: lightgreen;">Tabela das Receitas<span>| <?php echo "$mes/$ano" ?></span>
+                    </h5>
+                    <!-- Tabela com linhas listradas -->
+                    <table class="table datatable">
+                      <thead>
+                        <tr>
+                          <th><b>D</b>ata</th>
+                          <th>Descrição</th>
+                          <th>Tipo</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php
+                        if ($mes != "todos" and $ano != "todos") {
+                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='RECEITA' MONTH(data_financeiro) = $mes AND YEAR(data_financeiro) = $ano";
+                        } else if ($mes == "todos" and $ano != "todos") {
+                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='RECEITA' YEAR(data_financeiro) = $ano";
+                        } else if ($mes != "todos" and $ano == "todos") {
+                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='RECEITA' MONTH(data_financeiro) = $mes";
+                        } else {
+                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='RECEITA'";
+                        }
+                        $query_financ = mysqli_query($mysqli, $consulta_financ) or die(mysqli_error($mysqli));
+                        $balanco = 0;
+                        while ($linha = mysqli_fetch_array($query_financ)) {
+                          $balanco += $linha['valor'];
+                          ?>
+                          <tr>
+                            <td><?php echo $linha['data_financeiro'] ?></td>
+                            <td><?php echo $linha['descricao'] ?></td>
+                            <td><?php echo $linha['tipo'] ?></td>
+                            <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
+                          </tr>
+                          <?php
+                        }
+                        ?>
+
+                        <td></td>
+                        <td colspan="3" style="text-align: right;"><b>TOTAL:
+                            <?php echo number_format($balanco, 2, ",", ".") ?></b></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div><!-- End Despesas Fixas -->
+
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title balanco">Balanço do Mês Anterior:</h5>
+
+                      <h3 class="vl_bal">R$ <?php echo number_format($balanco_anterior, 2, ",", ".") ?></h3>
+
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title balanco">Balanço desse Mês: </h5>
+
+                      <h3 class="vl_bal">R$ <?php echo number_format($balanco, 2, ",", '.') ?></h3>
+
+
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div class="col-lg-6">
-                <div class="card">
-                  <div class="card-body">
-                    <h5 class="card-title balanco">Balanço desse Mês: </h5>
 
-                    <h3 class="vl_bal">R$ <?php echo number_format($balanco, 2, ",", '.') ?></h3>
-
-
-                  </div>
-                </div>
-              </div>
             </div>
-
-
-          </div>
         </div><!-- End Left side columns -->
 
         <div class="col-lg-4">
@@ -338,7 +412,8 @@ include_once ("calculo_balanco.php");
               <h5 class="card-title ">Balanço</h5>
 
               <!-- Grafico -->
-              <canvas id="barChart" style="max-height: 400px;"></canvas>
+              <div id="donutchart" style="width: 900px; height: 500px;"></div>
+              
               <script>
                 document.addEventListener("DOMContentLoaded", () => {
                   new Chart(document.querySelector('#barChart'), {
@@ -443,7 +518,7 @@ include_once ("calculo_balanco.php");
 
           }
           ?>
-          
+
         </div>
 
     </section>

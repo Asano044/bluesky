@@ -1,8 +1,23 @@
 <?php
 include_once ("conexao.php");
 
-$mes = $_SESSION['mes'];
-$ano = $_SESSION['ano'];
+if ($_SESSION['mes'] == null) {
+    $mes = 'todos';
+} else {
+    $mes = $_SESSION['mes'];
+}
+
+if ($_SESSION['ano'] == null) {
+    $ano = 'todos';
+} else {
+    $ano = $_SESSION['ano'];
+}
+
+if ($_SESSION['mes_anterior'] == null) {
+    $mes_anterior = 'todos';
+} else {
+    $mes_anterior = $_SESSION['mes_anterior'];
+}
 
 
 // Pegando a parte do ivan,charles,pedro para dividir por 3
