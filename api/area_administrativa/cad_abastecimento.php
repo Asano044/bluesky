@@ -58,7 +58,7 @@ include_once("session_login.php");
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="./cad_.balanco.php"> CAD. BALANÇO</a>
+          <a class="nav-link" href="./cad_balanco.php"> CAD. BALANÇO</a>
         </li>
 
         <li class="nav-item">
@@ -74,7 +74,7 @@ include_once("session_login.php");
 
     <section class="imagem tab-content">
       <div id="imagem-princ" class="container tab-pane active">
-        <form class="form_wrapper" enctype="multipart/form-data" action="cad_editais.php" method="post">
+        <form class="form_wrapper" enctype="multipart/form-data" action="cad_abastecimento.php" method="post">
           <div class="form_container">
             <div class="title_container">
               <h2>Cadastro de Abastecimento</h2>

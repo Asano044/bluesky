@@ -1,5 +1,5 @@
 <?php
-include_once("calculo_balanco.php");
+include_once ("calculo_balanco.php");
 
 ?>
 
@@ -20,7 +20,9 @@ include_once("calculo_balanco.php");
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -41,7 +43,7 @@ include_once("calculo_balanco.php");
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
         dayMaxEventRows: true,
@@ -275,14 +277,14 @@ include_once("calculo_balanco.php");
                       $balanco = 0;
                       while ($linha = mysqli_fetch_array($query_financ)) {
                         $balanco += $linha['valor'];
-                      ?>
+                        ?>
                         <tr>
                           <td><?php echo $linha['data_financeiro'] ?></td>
                           <td><?php echo $linha['descricao'] ?></td>
                           <td><?php echo $linha['tipo'] ?></td>
                           <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
                         </tr>
-                      <?php
+                        <?php
                       }
                       ?>
 
@@ -302,9 +304,9 @@ include_once("calculo_balanco.php");
                 <div class="card">
                   <div class="card-body">
                     <h5 class="card-title balanco">Balanço do Mês Anterior:</h5>
-                    
-                      <h3 class="vl_bal">R$ <?php echo number_format($balanco_anterior, 2, ",", ".") ?></h3>
-                   
+
+                    <h3 class="vl_bal">R$ <?php echo number_format($balanco_anterior, 2, ",", ".") ?></h3>
+
                   </div>
                 </div>
               </div>
@@ -313,9 +315,9 @@ include_once("calculo_balanco.php");
                 <div class="card">
                   <div class="card-body">
                     <h5 class="card-title balanco">Balanço desse Mês: </h5>
-                    
-                      <h3 class="vl_bal">R$ <?php echo number_format($balanco, 2, ",", '.') ?></h3>
-                    
+
+                    <h3 class="vl_bal">R$ <?php echo number_format($balanco, 2, ",", '.') ?></h3>
+
 
                   </div>
                 </div>
@@ -351,26 +353,26 @@ include_once("calculo_balanco.php");
                         }
                         ?>
                       ],
-                      labels: ['Despesas', 'Receita', 'Mês','Total'],
+                      labels: ['Despesas', 'Receita', 'Mês', 'Total'],
                       datasets: [{
                         label: 'Balanço Total',
-                        data: [<?php echo $balanco_anterior ?>, <?php echo $balanco ?>, ],
+                        data: [<?php echo $balanco_anterior ?>, <?php echo $balanco ?>,],
                         backgroundColor: [
                           <?php
                           if ($balanco <= 0) {
-                          ?> '#973532',
-                          <?php
+                            ?> '#973532',
+                            <?php
                           } else {
-                          ?> '#325597',
-                          <?php
+                            ?> '#325597',
+                            <?php
                           }
 
                           if ($balanco_anterior <= 0) {
-                          ?> '#973532',
-                          <?php
+                            ?> '#973532',
+                            <?php
                           } else {
-                          ?> '#325597',
-                          <?php
+                            ?> '#325597',
+                            <?php
                           }
                           ?>
                         ],
@@ -415,16 +417,33 @@ include_once("calculo_balanco.php");
                 </div>
               </div>
             </div>
-          </div>  
+          </div>
         </div>
 
 
 
         <div class="col-lg-12 observacao">
           <h3>Observações: </h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, labore? Minima, natus at obcaecati dolore
-            deserunt sapiente, perferendis vel vitae amet adipisci labore aliquam necessitatibus laborum consectetur.
-            Distinctio, nam eos.</p>
+          <?php
+          if ($mes != "todos" and $ano != "todos") {
+            $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='balanco' AND MONTH(data_obs) = $mes AND YEAR(data_obs) = $ano";
+
+          } else if ($mes == "todos" and $ano != "todos") {
+            $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='balanco' AND YEAR(data_obs) = $ano";
+
+          } else if ($mes != "todos" and $ano == "todos") {
+            $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='balanco' AND MONTH(data_obs) = $mes";
+
+          } else {
+            $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='balanco'";
+          }
+          $query_obs = mysqli_query($mysqli, $consulta_obs) or die(mysqli_error($mysqli));
+          while ($linha = mysqli_fetch_array($query_obs)) {
+            echo "<p>$linha[comentario]</p>";
+
+          }
+          ?>
+          
         </div>
 
     </section>
@@ -442,7 +461,8 @@ include_once("calculo_balanco.php");
 
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
 

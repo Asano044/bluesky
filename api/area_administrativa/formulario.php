@@ -55,7 +55,7 @@ include_once ("session_login.php");
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="./cad_.balanco.php"> CAD. BALANÇO</a>
+          <a class="nav-link" href="./cad_balanco.php"> CAD. BALANÇO</a>
         </li>
 
         <li class="nav-item">

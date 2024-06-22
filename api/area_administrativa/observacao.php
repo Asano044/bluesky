@@ -1,5 +1,5 @@
 <?php
-include_once("session_login.php");
+include_once ("session_login.php");
 ?>
 
 <!DOCTYPE html>
@@ -9,13 +9,16 @@ include_once("session_login.php");
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="richtext/richtext.min.css" />
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
 <link rel="shortcut icon" href="../assets/img/logo_BS.png" type="image/x-icon">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
+  integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src='https://use.fontawesome.com/4ecc3dbb0b.js'></script>
@@ -55,7 +58,7 @@ include_once("session_login.php");
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="./cad_.balanco.php"> CAD. BALANÇO</a>
+          <a class="nav-link" href="./cad_balanco.php"> CAD. BALANÇO</a>
         </li>
 
         <li class="nav-item">
@@ -72,7 +75,7 @@ include_once("session_login.php");
 
     <section class="imagem tab-content">
       <div id="imagem-princ" class="container tab-pane active">
-        <form class="form_wrapper" enctype="multipart/form-data" action="cad_solicitacoes.php" method="post">
+        <form class="form_wrapper" enctype="multipart/form-data" action="observacao.php" method="post">
           <div class="form_container">
             <div class="title_container">
               <h2>Cadastro das Observações</h2>
@@ -80,10 +83,18 @@ include_once("session_login.php");
 
             <div class="w3-row w3-border insert_bx">
 
-              <div class="w3-container w3-100 select-cor" style="margin: 0 0 20px 0;">
-                <select  name="solicitante" id="solicitante">
+              <div class="w3-container w3-50 select_bx">
+                <label for="data-voo">Data da Observação:</label>
+                <div class="input_field"> <span class="box1"><i class='bx bx-notepad'></i></span>
+                  <input type="date" name="data_obs" id="data_obs" />
+                </div>
+              </div>
+
+              <div class="w3-container w3-50 select-cor" style="margin: 0 0 20px 0;">
+                <select name="tipo" id="tipo">
+                  <option value="">Observações</option>
                   <option value="balanco">Observações Balanço</option>
-                  <option value="rel-voo">Observações Relatório de voo</option>
+                  <option value="rel_voo">Observações Relatório de voo</option>
                 </select>
               </div>
 
@@ -91,7 +102,7 @@ include_once("session_login.php");
               <div class="w3-container w3-100">
 
                 <div class="input_field "> <span class="box_text"><i class='bx bx-notepad'></i></span>
-                  <textarea  name="editor" id="editor"></textarea>
+                  <textarea name="editor" id="editor"></textarea>
                 </div>
               </div>
 
@@ -107,21 +118,15 @@ include_once("session_login.php");
             <?php
             if (isset($_POST["cadastrar-btn"])) {
               if (
-                !empty($_POST["data_financ"])
-                and !empty($_POST["descricao"])
-                and !empty($_POST["valor_financ"])
-                and !empty($_POST["tipo_gasto"])
+                !empty($_POST["data_obs"])
+                AND !empty($_POST["tipo"])
+                AND !empty($_POST["editor"])
               ) {
-                $data_financ = $_POST['data_financ'];
-                $descricao = mb_strtoupper($_POST['descricao']);
-                $tipo_gasto = $_POST['tipo_gasto'];
-                if ($tipo_gasto != "RECEITA") {
-                  $valor = -1 * $_POST['valor_financ'];
-                } else {
-                  $valor = $_POST['valor_financ'];
-                }
+                $data_obs = $_POST["data_obs"];
+                $tipo = $_POST['tipo'];
+                $editor = mb_strtoupper($_POST['editor']);
 
-                $inserir = "INSERT INTO financeiro(data_financeiro, descricao, tipo, valor) VALUES ('$data_financ', '$descricao', '$tipo_gasto', $valor)";
+                $inserir = "INSERT INTO observacao(data_obs, tipo, comentario) VALUES ('$data_obs', '$tipo', '$editor')";
                 $query = mysqli_query($mysqli, $inserir) or die(mysqli_error($mysqli));
 
                 echo "<p style='color: green; font-size: 16px;'>Cadastro efetuado com sucesso!</p>";
@@ -188,12 +193,12 @@ include_once("session_login.php");
       }
 
 
-    ClassicEditor
+      ClassicEditor
         .create(document.querySelector('#editor'), {
-            height: 500 // Defina a altura desejada aqui
+          height: 500 // Defina a altura desejada aqui
         })
         .catch(error => {
-            console.error(error);
+          console.error(error);
         });
 
     </script>

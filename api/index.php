@@ -1,6 +1,6 @@
 <?php
-include_once("calculo_horas.php");
-include_once('porcentagem_pessoas.php');
+include_once ("calculo_horas.php");
+include_once ('porcentagem_pessoas.php');
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +20,9 @@ include_once('porcentagem_pessoas.php');
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -41,7 +43,7 @@ include_once('porcentagem_pessoas.php');
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
         dayMaxEventRows: true,
@@ -85,7 +87,7 @@ include_once('porcentagem_pessoas.php');
           center: 'title',
           right: 'dayGridMonth,list'
         },
-        windowResize: function(arg) {}
+        windowResize: function (arg) { }
       });
       calendar.render();
       calendar.setOption('locale', 'pt');
@@ -287,7 +289,7 @@ include_once('porcentagem_pessoas.php');
             <div class="col-lg-8 box_select">
 
               <div class="select_mes">
-              <h3>Selecione o mês</h3>
+                <h3>Selecione o mês</h3>
                 <form>
                   <select class="form-select form-select-sm mt-3">
                     <option>Todos</option>
@@ -355,7 +357,7 @@ include_once('porcentagem_pessoas.php');
                       }
                       $query_voo = mysqli_query($mysqli, $consulta_voo) or die(mysqli_error($mysqli));
                       while ($linha = mysqli_fetch_array($query_voo)) {
-                      ?>
+                        ?>
                         <tr class="t-voo">
                           <td><?php echo $linha['data_voo'] ?></td>
                           <td><?php echo $linha['mes'] ?></td>
@@ -364,7 +366,7 @@ include_once('porcentagem_pessoas.php');
                           <td><span class="badge bg-primary"><?php echo $linha['solicitante'] ?></span></td>
                           <td><span class="badge bg-primary"><?php echo $linha['tempo_voo'] ?></span></td>
                         </tr>
-                      <?php
+                        <?php
                       }
                       ?>
 
@@ -443,13 +445,21 @@ include_once('porcentagem_pessoas.php');
           </thead>
           <tbody>
             <?php
-            $consulta_abastecimento = "SELECT data_abastecimento, local, solicitante, nf, data_vencimento, valor FROM abastecimentos";
+            if ($mes != "todos" and $ano != "todos") {
+              $consulta_abastecimento = "SELECT data_abastecimento, local, solicitante, nf, data_vencimento, valor FROM abastecimentos WHERE MONTH(data_abastecimento) = $mes AND YEAR(data_abastecimento) = $ano";
+            } else if ($mes == "todos" and $ano != "todos") {
+              $consulta_abastecimento = "SELECT data_abastecimento, local, solicitante, nf, data_vencimento, valor FROM abastecimentos WHERE YEAR(data_abastecimento) = $ano";
+            } else if ($mes != "todos" and $ano == "todos") {
+              $consulta_abastecimento = "SELECT data_abastecimento, local, solicitante, nf, data_vencimento, valor FROM abastecimentos WHERE MONTH(data_abastecimento) = $mes";
+            } else {
+              $consulta_abastecimento = "SELECT data_abastecimento, local, solicitante, nf, data_vencimento, valor FROM abastecimentos";
+            }
             $query_abastecimento = mysqli_query($mysqli, $consulta_abastecimento) or die(mysqli_error($mysqli));
 
             $valor_total = 0;
             while ($linha = mysqli_fetch_array($query_abastecimento)) {
               $valor_total += $linha['valor'];
-            ?>
+              ?>
               <tr>
                 <td><?php echo $linha['data_abastecimento'] ?></td>
                 <td><?php echo $linha['local'] ?></td>
@@ -457,7 +467,7 @@ include_once('porcentagem_pessoas.php');
                 <td><?php echo $linha['nf'] ?></td>
                 <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
               </tr>
-            <?php
+              <?php
             }
             ?>
             <!-- Linha com o total -->
@@ -472,9 +482,25 @@ include_once('porcentagem_pessoas.php');
 
         <div class="col-lg-12 observacao">
           <h3>Observações: </h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, labore? Minima, natus at obcaecati dolore
-            deserunt sapiente, perferendis vel vitae amet adipisci labore aliquam necessitatibus laborum consectetur.
-            Distinctio, nam eos.</p>
+          <?php
+          if ($mes != "todos" and $ano != "todos") {
+            $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='rel_voo' AND MONTH(data_obs) = $mes AND YEAR(data_obs) = $ano";
+
+          } else if ($mes == "todos" and $ano != "todos") {
+            $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='rel_voo' AND YEAR(data_obs) = $ano";
+
+          } else if ($mes != "todos" and $ano == "todos") {
+            $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='rel_voo' AND MONTH(data_obs) = $mes";
+
+          } else {
+            $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='rel_voo'";
+          }
+          $query_obs = mysqli_query($mysqli, $consulta_obs) or die(mysqli_error($mysqli));
+          while ($linha = mysqli_fetch_array($query_obs)) {
+            echo "<p>$linha[comentario]</p>";
+
+          }
+          ?>
         </div>
 
     </section>
@@ -492,7 +518,8 @@ include_once('porcentagem_pessoas.php');
     </div>
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
