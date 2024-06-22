@@ -240,8 +240,195 @@ color: #fff;
 .card> .radial{
  height: auto;
 }
+/******************************/
 
 
+
+.cirle_icon{
+  display: flex;
+  justify-content: center;
+}
+
+.icon_one{
+  width:35px;
+  height: 35px;
+  background: #d8d8f1;
+  color: #4154f1;
+  border-radius: 50%;
+  margin-right: 16px;
+  margin-bottom: 10px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  display: flex;
+}
+
+.title_card{
+font-size: 20px;
+font-weight: 600;
+color: #002060;
+}
+
+.card_top{
+width: 30%;
+height: auto;
+background-color: #fff;
+margin: 10px;
+padding: 0px 10px;
+border-radius: 5px;
+box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+
+.card_top>h5{
+ color: #002060;
+ font-weight: 600;
+}
+
+.dash{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.card2{
+margin-top: 10px;
+}
+
+
+.box_select{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-around;
+  margin: auto;
+  height: auto;
+  padding: 10px 10px 30px 10px;
+  width: 97%;
+  border-radius:5px;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.select_mes,
+.select_ano{
+  width: 45%;
+  height: auto;
+  outline: none;
+  margin: 0 10px;
+  }
+
+.select_mes > h3,
+.select_ano > h3{
+  font-size: 18px;
+  }
+
+
+.filter_one{
+  width: 50%;
+  padding: 10px;
+   height:auto;
+  }
+
+
+.form_mes{
+  width: 50%;
+}
+
+.form_mes>h3{
+  font-size: 16px;
+  font-weight: 600;
+  color: #002060;
+}
+
+button.botao_sel{
+  margin-top: 10px;
+  }
+
+ .card-graf{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .bal-table{
+    margin-top: 1rem;
+  }
+
+  .filter_balanco{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+    margin: 10px 0;
+    padding: 20px 0;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+
+  .mes,
+  .ano,
+  .tipo{
+    width: 30%;
+    margin: 0 5px;
+    padding-bottom: 10px;
+  }
+
+  .mes >h3,
+  .ano > h3,
+  .tipo>h3{
+  font-size: 18px;
+  font-weight: 600;
+  color: #002060;
+  }
+
+
+@media (max-width:750px){
+.card_top{
+  width: 90%;
+  padding: 0 10px;
+  margin: 10px;
+}
+
+
+.filter_balanco{
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+  align-items: center;
+}
+
+.mes,
+.ano,
+.tipo{
+  height:auto;
+  width: 85%;
+  margin: 10px auto;
+}
+
+.box_select{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+}
+
+.select_mes,
+.select_ano{
+  width: 80%;
+  height: auto;
+  outline: none;
+  margin: 10px 10px;
+  }
+
+}
+/******************************/
 
 .card {
   margin-bottom: 30px;
@@ -260,10 +447,20 @@ color: #fff;
 
 .card-title {
   padding: 20px 0 15px 0;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   color: #012970;
   font-family: "Poppins", sans-serif;
+}
+.balanco{
+  text-align: center;
+}
+
+.vl_bal{
+  font-size: 20px;
+  font-weight: 600;
+  color: #002060;
+  text-align: center;
 }
 
 .card-title span {
@@ -384,10 +581,7 @@ color: #fff;
 # Header
 --------------------------------------------------------------*/
 
-div.logo{
 
-
-}
 .logo {
   line-height: 1;
 }
@@ -1247,16 +1441,25 @@ div.container_calender{
   margin-bottom: 1.6rem;
   display: flex;
   flex-direction: row;
- 
+  justify-content: center;
 }
+
 #calendar {
+
   margin: auto;
   clear: both;
   font-size: 14px;
   text-align: center;
-  max-width:22rem;
+  max-width:20rem;
   justify-content: center;
   align-items: center;
+}
+
+.fc .fc-toolbar.fc-header-toolbar .fc-toolbar-chunk:nth-child(2) h2 {
+  margin: 5px;
+  padding: 0;
+  font-size: 14px;
+  text-decoration: none;
 }
 
 .fc .fc-toolbar.fc-header-toolbar {
@@ -1264,6 +1467,7 @@ div.container_calender{
   flex-wrap: wrap;
   margin-top: 0rem;
   padding-top: 0rem;
+  font-weight: 600;
 }
 
 .fc-toolbar-chunk {
@@ -1289,11 +1493,6 @@ div.container_calender{
 .fc .fc-daygrid-day-frame {
   height:8vh;
 }
-.fc .fc-toolbar.fc-header-toolbar .fc-toolbar-chunk:nth-child(2) h2 {
-  padding: 0;
-  font-size: 1.2rem;
-  text-decoration: none;
-}
 
 .btn-group>.btn:first-child:not(:last-child):not(.dropdown-toggle) {
   background-color: #002060;
@@ -1314,13 +1513,22 @@ color: #fff;
 font-size: 15px;
 width: 100%;
 }
+
+.datatable-table > tbody > tr > td{
+vertical-align: top;
+padding: 5px 5px;
+font-size: 10px;
+}
 tbody > tr:nth-child(2n-1){
 background:#fafafa;
 }
 
 td,th{
 border: 1px solid rgba(37, 9, 147, 0.3);
-padding: 10px 5px;
+padding: 5px 5px;
+}
+.fc .fc-daygrid-day-frame{
+  height:4.7vh;  
 }
 
 @media(min-width: 600px) {
@@ -1332,7 +1540,7 @@ padding: 10px 5px;
  }
   @media(max-width: 600px) {
     .fc .fc-daygrid-day-frame {
-      height:6.5vh;
+      height:4.5vh;
     }
    }
 

@@ -1,3 +1,8 @@
+<?php
+include_once("calculo_balanco.php");
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -36,11 +41,11 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
         dayMaxEventRows: true,
-        events: 'listar_eventos.php',
+        events: 'listar_evento_financeiro.php',
         listDayFormat: true,
         listDaySideFormat: true,
         navLinks: true,
@@ -121,32 +126,58 @@
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Área administrativa</span>
               </a>
+              <a class="dropdown-item d-flex align-items-center" href="filtro_mes_ano.php">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Filtro Mês e Ano</span>
+              </a>
             </li>
-            </li>
-          </ul><!-- Senha Adm -->
-        </li><!-- End Profile Nav -->
+        </li>
+      </ul><!-- Senha Adm -->
+      </li><!-- End Profile Nav -->
       </ul>
     </nav><!-- End Icons Navigation -->
   </header><!-- End Header -->
 
   <!-- ======= Sidebar ======= -->
-<aside id="sidebar" class="sidebar">
+  <!-- ======= Sidebar ======= -->
+  <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
-      <li class="nav-item">
-        <a class="nav-link " href="index.php">
-          <i class="bi bi-grid"></i>
-          <span>Relatório de Voo</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="./balanco.php">
-          <i class="bi bi-envelope"></i>
-          <span>Balanço Mensal</span>
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i> <span>PA34 SENECA III - PR EMN</span>
+          <i class="bi bi-chevron-down ms-auto"></i>
         </a>
-      </li>
+        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="index.php" target="_self">
+              <i class="bi bi-circle"></i><span>Relatório de Voo</span>
+            </a>
+          </li>
+          <li>
+            <a href="./balanco.php" target="_self">
+              <i class="bi bi-circle"></i><span>Balanço Mensal</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Tables Nav -->
+
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-airplane"></i><span>Voo 2 </span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="#">
+              <i class="bi bi-circle"></i><span>1</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Icons Nav -->
     </ul>
   </aside><!-- End Sidebar-->
+
 
   <main id="main" class="main">
     <div class="pagetitle">
@@ -154,7 +185,7 @@
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.php">Pág. Anterior</a></li>
-      
+
         </ol>
       </nav>
     </div><!-- End Page Title -->
@@ -164,276 +195,239 @@
 
         <!-- Left side columns -->
         <div class="col-lg-8">
-          <div class="row">
-        
-
-<!-- Despesas Fixas -->
-<div class="col-12">
-  <div class="card recent-sales overflow-auto">
-    <div class="card-body">
-      <h5 class="card-title" style="color: red;">Despesas Fixas<span>| Dezembro/2023</span></h5>
-      <!-- Tabela com linhas listradas -->
-      <table class="table datatable">
-        <thead>
-          <tr>
-            <th><b>D</b>ata</th>
-            <th>Descrição</th>
-            <th>Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Hangar</td>
-            <td>2500</td>
-          </tr>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Administração Blue Sky</td>
-            <td>10000</td>
-          </tr>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Assinatura GNSS (1 ano Garmin)</td>
-            <td>4455</td>
-          </tr>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Ubatuba</td>
-            <td>Pedro</td>
-          </tr>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Ubatuba</td>
-            <td>Pedro</td>
-          </tr>
-         
-            <td></td>
-            <td colspan="2" style="text-align: right;"><b>TOTAL: 16955</b></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div><!-- End Despesas Fixas -->
-
-
-
-<!-- Despesas Variáveis -->
-<div class="col-12">
-  <div class="card recent-sales overflow-auto">
-    <div class="card-body">
-      <h5 class="card-title desp" style="color: red;">Despesas Variáveis<span>| Dezembro/2023</span></h5>
-      <!-- Tabela com linhas listradas -->
-      <table class="table datatable">
-        <thead>
-          <tr>
-            <th><b>D</b>ata</th>
-            <th>Descrição</th>
-            <th>Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Hangar</td>
-            <td>2500</td>
-          </tr>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Administração Blue Sky</td>
-            <td>10000</td>
-          </tr>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Assinatura GNSS (1 ano Garmin)</td>
-            <td>4455</td>
-          </tr>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Ubatuba</td>
-            <td>Pedro</td>
-          </tr>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Ubatuba</td>
-            <td>Pedro</td>
-          </tr>
-
-          <tr>
-            <td></td>
-            <td colspan="2" style="text-align: right;"><b>TOTAL: 16955</b></td>
-          </tr>
-       
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div><!-- End Despesas Variáveis -->
-  
-
-<!-- Receita -->
-<div class="col-12">
-  <div class="card recent-sales overflow-auto">
-    <div class="card-body">
-      <h5 class="card-title receita" style="color: rgb(17, 145, 17);">Receitas<span>| Dezembro/2023</span></h5>
-      <!-- Tabela com linhas listradas -->
-      <table class="table datatable">
-        <thead>
-          <tr>
-            <th><b>D</b>ata</th>
-            <th>Descrição</th>
-            <th>Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Hangar</td>
-            <td>2500</td>
-          </tr>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Administração Blue Sky</td>
-            <td>10000</td>
-          </tr>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Assinatura GNSS (1 ano Garmin)</td>
-            <td>4455</td>
-          </tr>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Ubatuba</td>
-            <td>Pedro</td>
-          </tr>
-          <tr>
-            <td>18/12/2023</td>
-            <td>Ubatuba</td>
-            <td>Pedro</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td colspan="2" style="text-align: right;"><b>TOTAL: 16955</b></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div><!-- End Receita -->
-
-
-
-<div class="row">
-  <div class="col-lg-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Total Dez| 2023:</h5>
-        <center>
-          <h3>R$ 16955</h3>
-        </center>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-lg-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Total Mês: </h5>
-        <center>
-          <h3>R$ 16955</h3>
-        </center>
-        
-      </div>
-    </div>
-  </div>
-</div>
-
-
-</div>
-</div><!-- End Left side columns -->
-
-<div class="col-lg-4">
-  <div class="container_calender">
-    <div id="calendar"></div>
-  </div>
-
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Bar Chart</h5>
-
-      <!-- Bar Chart -->
-      <canvas id="barChart" style="max-height: 400px;"></canvas>
-      <script>
-        document.addEventListener("DOMContentLoaded", () => {
-          new Chart(document.querySelector('#barChart'), {
-            type: 'bar',
-            data: {
-              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-              datasets: [{
-                label: 'Bar Chart',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(255, 159, 64, 0.2)',
-                  'rgba(255, 205, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(201, 203, 207, 0.2)'
-                ],
-                borderColor: [
-                  'rgb(255, 99, 132)',
-                  'rgb(255, 159, 64)',
-                  'rgb(255, 205, 86)',
-                  'rgb(75, 192, 192)',
-                  'rgb(54, 162, 235)',
-                  'rgb(153, 102, 255)',
-                  'rgb(201, 203, 207)'
-                ],
-                borderWidth: 1
-              }]
-            },
-            options: {
-              scales: {
-                y: {
-                  beginAtZero: true
-                }
-              }
-            }
-          });
-        });
-      </script>
-      <!-- End Bar Chart -->
-    </div>
-  </div>
-
-    <!-- Card Mês Anterior -->
-    <div class="col-xxl-12">
-      <div class="card info-card sales-card">
-        <div class="card-body">
-          <h5 class="card-title">Balanço do mês</h5>
-          <div class="d-flex align-items-center">
-            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-              <i class='bx bx-money' ></i>
+          <div class="filter_balanco">
+            <div class="mes">
+              <h3>Selecione o mês</h3>
+              <form>
+                <select class="form-select form-select-sm mt-3">
+                  <option>Todos</option>
+                  <option>Janeiro</option>
+                  <option>Fevereiro</option>
+                  <option>Março</option>
+                  <option>Abril</option>
+                  <option>Maio</option>
+                  <option>Junho</option>
+                  <option>Julho</option>
+                  <option>Agosto</option>
+                  <option>Setembro</option>
+                  <option>Outubro</option>
+                  <option>Novembro</option>
+                  <option>Dezembro</option>
+                </select>
+              </form>
             </div>
-            <div class="ps-3">
-              <h6>24:52</h6>
+
+            <div class="ano">
+              <h3>Selecione o ano</h3>
+              <form>
+                <select class="form-select form-select-sm mt-3">
+                  <option>Todos</option>
+                  <option>2023</option>
+                  <option>2024</option>
+                </select>
+              </form>
+            </div>
+
+            <div class="tipo">
+              <h3>Selecione o Tipo</h3>
+              <form>
+                <select class="form-select form-select-sm mt-3">
+                  <option>Tipo</option>
+                  <option>Despesas Fixa</option>
+                  <option>Despesas Váriaveis</option>
+                  <option>Receitas</option>
+                </select>
+              </form>
+            </div>
+
+            <button type="button" class="btn btn-outline-primary shadow-custom botao_sel">Enviar</button>
+          </div>
+
+          <div class="row">
+            <!-- Despesas Fixas -->
+            <div class="col-12">
+              <div class="card recent-sales overflow-auto">
+                <div class="card-body">
+                  <h5 class="card-title" style="color: red;">Tabela Financeira<span>| <?php echo "$mes/$ano" ?></span>
+                  </h5>
+                  <!-- Tabela com linhas listradas -->
+                  <table class="table datatable">
+                    <thead>
+                      <tr>
+                        <th><b>D</b>ata</th>
+                        <th>Descrição</th>
+                        <th>Tipo</th>
+                        <th>Valor</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      if ($mes != "todos" and $ano != "todos") {
+                        $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE MONTH(data_financeiro) = $mes AND YEAR(data_financeiro) = $ano";
+                      } else if ($mes == "todos" and $ano != "todos") {
+                        $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE YEAR(data_financeiro) = $ano";
+                      } else if ($mes != "todos" and $ano == "todos") {
+                        $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE MONTH(data_financeiro) = $mes";
+                      } else {
+                        $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro";
+                      }
+                      $query_financ = mysqli_query($mysqli, $consulta_financ) or die(mysqli_error($mysqli));
+                      $balanco = 0;
+                      while ($linha = mysqli_fetch_array($query_financ)) {
+                        $balanco += $linha['valor'];
+                      ?>
+                        <tr>
+                          <td><?php echo $linha['data_financeiro'] ?></td>
+                          <td><?php echo $linha['descricao'] ?></td>
+                          <td><?php echo $linha['tipo'] ?></td>
+                          <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
+                        </tr>
+                      <?php
+                      }
+                      ?>
+
+                      <td></td>
+                      <td colspan="3" style="text-align: right;"><b>TOTAL:
+                          <?php echo number_format($balanco, 2, ",", ".") ?></b></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div><!-- End Despesas Fixas -->
+
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title balanco">Balanço do Mês Anterior:</h5>
+                    
+                      <h3 class="vl_bal">R$ <?php echo number_format($balanco_anterior, 2, ",", ".") ?></h3>
+                   
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title balanco">Balanço desse Mês: </h5>
+                    
+                      <h3 class="vl_bal">R$ <?php echo number_format($balanco, 2, ",", '.') ?></h3>
+                    
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div><!-- End Left side columns -->
+
+        <div class="col-lg-4">
+          <div class="container_calender">
+            <div id="calendar"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title ">Balanço</h5>
+
+              <!-- Grafico -->
+              <canvas id="barChart" style="max-height: 400px;"></canvas>
+              <script>
+                document.addEventListener("DOMContentLoaded", () => {
+                  new Chart(document.querySelector('#barChart'), {
+                    type: 'bar',
+                    data: {
+                      labels: [
+                        <?php
+                        $mes_financ = "SELECT DISTINCTROW(MONTH(data_financeiro)) AS meses FROM financeiro";
+                        $query_meses = mysqli_query($mysqli, $mes_financ) or die(mysqli_error($mysqli));
+                        while ($linha = mysqli_fetch_array($query_meses)) {
+                          echo $linha['meses'];
+                        }
+                        ?>
+                      ],
+                      labels: ['Despesas', 'Receita', 'Mês','Total'],
+                      datasets: [{
+                        label: 'Balanço Total',
+                        data: [<?php echo $balanco_anterior ?>, <?php echo $balanco ?>, ],
+                        backgroundColor: [
+                          <?php
+                          if ($balanco <= 0) {
+                          ?> '#973532',
+                          <?php
+                          } else {
+                          ?> '#325597',
+                          <?php
+                          }
+
+                          if ($balanco_anterior <= 0) {
+                          ?> '#973532',
+                          <?php
+                          } else {
+                          ?> '#325597',
+                          <?php
+                          }
+                          ?>
+                        ],
+                        borderColor: [
+                          'rgb(255, 99, 132)',
+                          'rgb(255, 159, 64)',
+                          'rgb(255, 205, 86)',
+                          'rgb(75, 192, 192)',
+                          'rgb(54, 162, 235)',
+                          'rgb(153, 102, 255)',
+                          'rgb(201, 203, 207)'
+                        ],
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      }
+                    }
+                  });
+                });
+              </script>
+              <!-- End grafico -->
             </div>
           </div>
+
+          <!-- Card Mês Anterior -->
+          <div class="col-xxl-12">
+            <div class="card info-card sales-card">
+              <div class="card-body">
+                <h5 class="card-title">Balanço Total</h5>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <i class='bx bx-money'></i>
+                  </div>
+                  <div class="ps-3">
+                    <h6 id="balance-value"><?php echo number_format($balanco, 2, ",", '.'); ?></h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
         </div>
-      </div>
-    </div><!-- End Sales Card -->
-</div>
-     
 
 
-<div class="col-lg-12 observacao">
-<h3>Observações: </h3>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, labore? Minima, natus at obcaecati dolore deserunt sapiente, perferendis vel vitae amet adipisci labore aliquam necessitatibus laborum consectetur. Distinctio, nam eos.</p>
-</div>
 
-</section>
+        <div class="col-lg-12 observacao">
+          <h3>Observações: </h3>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est, labore? Minima, natus at obcaecati dolore
+            deserunt sapiente, perferendis vel vitae amet adipisci labore aliquam necessitatibus laborum consectetur.
+            Distinctio, nam eos.</p>
+        </div>
+
+    </section>
 
 
 
@@ -442,17 +436,16 @@
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span>Blue Sky</span></strong>. All Rights Reserved
+      &copy; Copyright <strong><span>blueSky</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
-     
-      Designed by <a href="https://www.instagram.com/canbe_digital/">Can Be Digital</a>
-    </div>
+
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
+
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="assets/vendor/chart.js/chart.umd.js"></script>

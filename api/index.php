@@ -20,9 +20,7 @@ include_once('porcentagem_pessoas.php');
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -43,7 +41,7 @@ include_once('porcentagem_pessoas.php');
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
       var calendarEl = document.getElementById('calendar');
       var calendar = new FullCalendar.Calendar(calendarEl, {
         dayMaxEventRows: true,
@@ -87,7 +85,7 @@ include_once('porcentagem_pessoas.php');
           center: 'title',
           right: 'dayGridMonth,list'
         },
-        windowResize: function (arg) { }
+        windowResize: function(arg) {}
       });
       calendar.render();
       calendar.setOption('locale', 'pt');
@@ -96,7 +94,9 @@ include_once('porcentagem_pessoas.php');
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
-    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.load('current', {
+      'packages': ['corechart']
+    });
     google.charts.setOnLoadCallback(drawChart);
 
     function drawChart() {
@@ -114,34 +114,37 @@ include_once('porcentagem_pessoas.php');
     }
   </script>
 
-<script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Pedro',     <?php echo $segundos_pedro?>],
-          ['Ivan',      <?php echo $segundos_ivan?>],
-          ['Charles',  <?php echo $segundos_charles?>],
-          ['Blue Sky', <?php echo $segundos_bluesky?>],
-          ['Ivan, Charles, Pedro', <?php echo $segundos_dividir3?>],
-          ['Pedro, Ivan', <?php echo $segundos_dividir2_pedro?>],
-          ['Pedro, Charles', <?php echo $segundos_dividir2_charles?>],
-          ['Charles, Ivan', <?php echo $segundos_dividir2_charles?>],
-          ['Ivan, Charles', <?php echo $segundos_dividir2_ivan?>],
+  <script type="text/javascript">
+    google.charts.load("current", {
+      packages: ["corechart"]
+    });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+        ['Pedro', <?php echo $segundos_pedro ?>],
+        ['Ivan', <?php echo $segundos_ivan ?>],
+        ['Charles', <?php echo $segundos_charles ?>],
+        ['Blue Sky', <?php echo $segundos_bluesky ?>],
+        ['Ivan, Charles, Pedro', <?php echo $segundos_dividir3 ?>],
+        ['Pedro, Ivan', <?php echo $segundos_dividir2_pedro ?>],
+        ['Pedro, Charles', <?php echo $segundos_dividir2_charles ?>],
+        ['Charles, Ivan', <?php echo $segundos_dividir2_charles ?>],
+        ['Ivan, Charles', <?php echo $segundos_dividir2_ivan ?>],
 
 
-        ]);
+      ]);
 
-        var options = {
-          title: 'Porcentagem que gastaram',
-          pieHole: 0.4,
-        };
+      var options = {
+        title: 'Porcentagem que gastaram',
+        pieHole: 0.4,
+      };
 
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
-      }
-    </script>
+      var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+      chart.draw(data, options);
+    }
+  </script>
 </head>
 
 <body>
@@ -189,18 +192,39 @@ include_once('porcentagem_pessoas.php');
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
+
       <li class="nav-item">
-        <a class="nav-link " href="index.php">
-          <i class="bi bi-grid"></i>
-          <span>Relatório de Voo</span>
+        <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-layout-text-window-reverse"></i> <span>PA34 SENECA III - PR EMN</span>
+          <i class="bi bi-chevron-down ms-auto"></i>
         </a>
-      </li><!-- End Dashboard Nav -->
+        <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="index.php" target="_self">
+              <i class="bi bi-circle"></i><span>Relatório de Voo</span>
+            </a>
+          </li>
+          <li>
+            <a href="./balanco.php" target="_self">
+              <i class="bi bi-circle"></i><span>Balanço Mensal</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Tables Nav -->
+
+
       <li class="nav-item">
-        <a class="nav-link collapsed" href="./balanco.php">
-          <i class="bi bi-envelope"></i>
-          <span>Balanço Mensal</span>
+        <a class="nav-link collapsed" data-bs-target="#icons-nav" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-airplane"></i><span>Voo 2 </span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
-      </li>
+        <ul id="icons-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <li>
+            <a href="#">
+              <i class="bi bi-circle"></i><span>1</span>
+            </a>
+          </li>
+        </ul>
+      </li><!-- End Icons Nav -->
     </ul>
   </aside><!-- End Sidebar-->
 
@@ -212,96 +236,94 @@ include_once('porcentagem_pessoas.php');
       </nav>
     </div><!-- End Page Title -->
 
+
     <section class="section dashboard">
+      <!-- caixa de cards -->
+
       <div class="row">
         <!-- Left side columns -->
         <div class="col-lg-8">
-          <div class="row">
-            <!-- Card Mês Anterior-->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
-                <div class="card-body">
-                  <h5 class="card-title">Horas Mês anterior | <br><span><?php echo $mes_anterior ?></span></h5>
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class='bx bxs-chevrons-left'></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6><?php echo $total_horas_anterior ?></h6>
-                    </div>
+          <div class="row dash">
+            <div class="card_top">
+              <h5 class="card-title">Horas Mês anterior | <span><?php echo $mes_anterior ?></span></h5>
+              <div class="circle_box">
+                <div class="cirle_icon">
+                  <div class="icon_one">
+                    <i class='bx bxs-chevrons-left'></i>
                   </div>
+                  <p class="title_card"><?php echo $total_horas_anterior ?></p>
                 </div>
               </div>
-            </div><!-- End Sales Card -->
+            </div>
 
-            <!-- Card Mês Anterior-->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
-
-                <div class="card-body">
-                  <h5 class="card-title">Horas Mês Atual | <br><span><?php echo $mes ?></span></h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class='bx bx-alarm'></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6><?php echo $total_horas_atuais ?></h6>
-
-                    </div>
+            <div class="card_top">
+              <h5 class="card-title">Horas Mês Atual | <span><?php echo $mes ?></span></h5>
+              <div class="circle_box">
+                <div class="cirle_icon">
+                  <div class="icon_one">
+                    <i class='bx bxs-chevrons-left'></i>
                   </div>
-                </div>
+                  <p class="title_card"><?php echo $total_horas_atuais ?></p>
 
-              </div>
-            </div><!-- End Sales Card -->
-
-            <!-- Card Mês Anterior-->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
-
-                <div class="card-body">
-                  <h5 class="card-title">Total Horas | <br>
-                    <span>(50 hrs)</span>
-                  </h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class='bx bx-bar-chart-square'></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6><?php echo $horas_restantes ?></h6>
-
-                    </div>
-                  </div>
                 </div>
               </div>
-            </div> <!-- Card Mês Anterior-->
+            </div>
 
-            <!-- Card Mês Anterior-->
-            <div class="col-xxl-4 col-md-6">
-              <div class="card info-card sales-card">
 
-                <div class="card-body">
-                  <h5 class="card-title">Qtde vezes que resetou | <br>
-                    <span>pós 50 horas</span>
-                  </h5>
-
-                  <div class="d-flex align-items-center">
-                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class='bx bx-bar-chart-square'></i>
-                    </div>
-                    <div class="ps-3">
-                      <h6><?php echo $contador ?></h6>
-                    </div>
+            <div class="card_top">
+              <h5 class="card-title">Total Horas | <br> <span>(50 hrs)</span></h5>
+              <div class="circle_box">
+                <div class="cirle_icon">
+                  <div class="icon_one">
+                    <i class='bx bxs-chevrons-left'></i>
                   </div>
+                  <p class="title_card"><?php echo $horas_restantes ?></p>
+
                 </div>
               </div>
-            </div> <!-- Card Mês Anterior-->
+            </div>
+
+
+            <div class="col-lg-8 box_select">
+
+              <div class="select_mes">
+              <h3>Selecione o mês</h3>
+                <form>
+                  <select class="form-select form-select-sm mt-3">
+                    <option>Todos</option>
+                    <option>Janeiro</option>
+                    <option>Fevereiro</option>
+                    <option>Março</option>
+                    <option>Abril</option>
+                    <option>Maio</option>
+                    <option>Junho</option>
+                    <option>Julho</option>
+                    <option>Agosto</option>
+                    <option>Setembro</option>
+                    <option>Outubro</option>
+                    <option>Novembro</option>
+                    <option>Dezembro</option>
+                  </select>
+                </form>
+
+              </div>
+              <div class="select_ano">
+                <h3>Selecione o ano</h3>
+                <form>
+                  <select class="form-select form-select-sm mt-3">
+                    <option>Todos</option>
+                    <option>2023</option>
+                    <option>2024</option>
+                  </select>
+                </form>
+              </div>
+
+            </div>
 
 
             <!-- Relatorio DEzembro -->
             <div class="col-12">
-              <div class="card recent-sales overflow-auto">
+              <div class="card recent-sales overflow-auto card2">
 
 
                 <div class="card-body">
@@ -324,19 +346,16 @@ include_once('porcentagem_pessoas.php');
 
                       if ($mes != "todos" and $ano != "todos") {
                         $consulta_voo = "SELECT data_voo, mes, partida, destino, solicitante, tempo_voo FROM horas_voadas WHERE MONTH(data_voo) = $mes AND YEAR(data_voo) = $ano";
-
                       } else if ($mes == "todos" and $ano != "todos") {
                         $consulta_voo = "SELECT data_voo, mes, partida, destino, solicitante, tempo_voo FROM horas_voadas WHERE YEAR(data_voo) = $ano";
-
                       } else if ($mes != "todos" and $ano == "todos") {
                         $consulta_voo = "SELECT data_voo, mes, partida, destino, solicitante, tempo_voo FROM horas_voadas WHERE MONTH(data_voo) = $mes";
-
                       } else {
                         $consulta_voo = "SELECT data_voo, mes, partida, destino, solicitante, tempo_voo FROM horas_voadas";
                       }
                       $query_voo = mysqli_query($mysqli, $consulta_voo) or die(mysqli_error($mysqli));
                       while ($linha = mysqli_fetch_array($query_voo)) {
-                        ?>
+                      ?>
                         <tr class="t-voo">
                           <td><?php echo $linha['data_voo'] ?></td>
                           <td><?php echo $linha['mes'] ?></td>
@@ -345,7 +364,7 @@ include_once('porcentagem_pessoas.php');
                           <td><span class="badge bg-primary"><?php echo $linha['solicitante'] ?></span></td>
                           <td><span class="badge bg-primary"><?php echo $linha['tempo_voo'] ?></span></td>
                         </tr>
-                        <?php
+                      <?php
                       }
                       ?>
 
@@ -378,9 +397,9 @@ include_once('porcentagem_pessoas.php');
 
         <!-- Outra coluna do lado direito -->
         <div class="col-lg-4">
-          <div class="card">
-            <div class="card-body radial">
-              <h5 class="card-title">Gráfico de Horas Restantes</h5>
+          <div class="card ">
+            <div class="card-body radial card-graf">
+              <h5 class="card-title">Manutenção 50Hrs.</h5>
 
               <!-- Gráfico de Barra Radial -->
               <div id="piechart" style="width: 275px; height: 250px;"></div>
@@ -393,8 +412,8 @@ include_once('porcentagem_pessoas.php');
 
         <div class="col-lg-4">
           <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Gasto de Cada Pessoa</h5>
+            <div class="card-body card-graf">
+              <h5 class="card-title">Horas Utilizadas por usuários</h5>
 
               <!-- Donut Chart -->
               <div id="donutchart" style="width: 275px; height: 250px;"></div>
@@ -430,7 +449,7 @@ include_once('porcentagem_pessoas.php');
             $valor_total = 0;
             while ($linha = mysqli_fetch_array($query_abastecimento)) {
               $valor_total += $linha['valor'];
-              ?>
+            ?>
               <tr>
                 <td><?php echo $linha['data_abastecimento'] ?></td>
                 <td><?php echo $linha['local'] ?></td>
@@ -438,7 +457,7 @@ include_once('porcentagem_pessoas.php');
                 <td><?php echo $linha['nf'] ?></td>
                 <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
               </tr>
-              <?php
+            <?php
             }
             ?>
             <!-- Linha com o total -->
@@ -473,8 +492,7 @@ include_once('porcentagem_pessoas.php');
     </div>
   </footer><!-- End Footer -->
 
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>

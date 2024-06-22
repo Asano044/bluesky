@@ -4,6 +4,7 @@
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #f5f4f4;
+  overflow: hidden !;
 }
 
 
@@ -12,55 +13,38 @@ body {
 **************************/
 
 .top {
-background: #c0c0c0 url(../assets/img/background-adm.png) no-repeat;
-background-size:cover;
-height:15vh;
-max-height: 150px;
+background: #f1f1f1 url(../assets/img/background-adm.jpg) no-repeat;
+background-size:100%;
+height:25vh;
+max-height: 400px;
 position: relative;
 }
 
 div.logo{
 position: absolute;
-top: .5rem;
-left: .5rem;
-width: 50%;
+top: 2rem;
+left: 1rem;
+width: 30%;
 padding:5px;
 }
 
-div.logo > img{
-width: 100%;
-background-color: rgba(255, 255, 255, 0.5);
-}
-
-div.urso_man{
-position: absolute;
-width:40%;
-left:60%;
-right:30%;
-bottom: -.5rem;
-}
-
-div.urso_man > img{
-width: 100%;
-}
-
-@media(min-width:600px) {
+@media(max-width:790px) {
 .top {
+background: #f1f1f1 url(../assets/img/mobile.jpg)  ;
 background-size: 100% 100%;  
+background-size: cover;
 height:25vh;
+
 }
 
 div.logo{
-width: 32%;
+top: 3rem;
+width: 50%;
 padding: 10px;
-}
-
-div.urso_man{
-position: absolute;
-width:20%;
 }}
 
 .navbar {
+border-top: 2px double #002060;
 background-color: #fff;
 display: flex;
 align-items: center;
@@ -387,6 +371,14 @@ text-align: center;
   margin: 1.3rem 0rem 0;
 }
 
+.tipo_gasto{
+  margin-bottom: 15px;
+}
+.button_balanco{
+  width: 20rem !important;
+}
+
+
 @media(max-width:600px) {
 
   #niveis_ens{
@@ -395,6 +387,10 @@ text-align: center;
     
     .bnt_sel{
     width: 100%;
+    }
+
+    .button_balanco{
+      width: 17.5rem !important; 
     }
 
 }
@@ -424,7 +420,10 @@ border: 1px solid #000;
 padding: 10px;
 }
 
-
+.select_sol{
+margin: 16px 0 0 0;
+ 
+}
 
 @media(max-width:600px) {
   .navbar {
@@ -437,6 +436,10 @@ padding: 10px;
   @media (max-width: 768px) {
   .form_wrapper {
   width: 100%;
+  }
+
+  .select_sol{
+  margin-bottom: 10px;
   }
  
   }

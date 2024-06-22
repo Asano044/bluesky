@@ -1,5 +1,5 @@
 <?php
-include_once ("session_login.php");
+include_once("session_login.php");
 ?>
 
 <!DOCTYPE html>
@@ -13,8 +13,8 @@ include_once ("session_login.php");
   integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="richtext/richtext.min.css" />
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="shortcut icon" href="../assets/img/logo_BS.png" type="image/x-icon">
 <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-teal.css">
+<link rel="shortcut icon" href="../assets/img/logo_BS.png" type="image/x-icon">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
@@ -28,6 +28,9 @@ include_once ("session_login.php");
 <style>
   label>span {
     font-weight: 600;
+  }
+  body{
+    overflow-y: hidden !important;
   }
 </style>
 </head>
@@ -46,12 +49,12 @@ include_once ("session_login.php");
     <!-- Nav tabs -->
     <nav class="navbar  navbar-expand-sm">
       <ul class="nav nav-tabs" role="tablist">
-        <li class="nav-item">
-          <a class="nav-link active" href="./formulario.php">CAD. RELATÓRIO VOO</a>
+      <li class="nav-item">
+          <a class="nav-link" href="./formulario.php">CAD. RELATÓRIO VOO</a>
         </li>
 
         <li class="nav-item">
-        <a class="nav-link" href="./cad_abastecimento.php">CAD. ABASTECIMENTOS</a>
+        <a class="nav-link active" href="./cad_abastecimento.php">CAD. ABASTECIMENTOS</a>
         </li>
 
         <li class="nav-item">
@@ -71,104 +74,90 @@ include_once ("session_login.php");
 
     <section class="imagem tab-content">
       <div id="imagem-princ" class="container tab-pane active">
-        <form class="form_wrapper" enctype="multipart/form-data" action="formulario.php" method="post">
+        <form class="form_wrapper" enctype="multipart/form-data" action="cad_editais.php" method="post">
           <div class="form_container">
             <div class="title_container">
-              <h2>Cadastro de Voo</h2>
+              <h2>Cadastro de Abastecimento</h2>
             </div>
 
             <div class="w3-row w3-border insert_bx">
 
-              <div class="w3-container w3-third select_bx">
-                <label for="data-voo">Data:</label>
+              <div class="w3-container w3-half select_bx">
+                <label for="dt-abast">Data do Abastecimento:</label>
                 <div class="input_field"> <span class="box1"><i class='bx bx-notepad'></i></span>
-                  <input type="date" name="data_voo" id="data_voo" />
+                  <input type="date" name="data_abast" id="dt-abast" />
                 </div>
               </div>
 
-              <div class="w3-container w3-third select_bx select-cor">
-                <select name="mes_voo" id="mes_voo">
-                  <option value="mes">Mês</option>
-                  <option value="JANEIRO">Janeiro</option>
-                  <option value="FEVEREIRO">Fevereiro</option>
-                  <option value="MARÇO">Março</option>
-                  <option value="ABRIL">Abril</option>
-                  <option value="MAIO">Maio</option>
-                  <option value="JUNHO">Junho</option>
-                  <option value="JULHO">Julho</option>
-                  <option value="AGOSTO">Agosto</option>
-                  <option value="SETEMBRO">Setembro</option>
-                  <option value="OUTUBRO">Outubro</option>
-                  <option value="NOVEMBRO">Novembro</option>
-                  <option value="DEZEMBRO">Dezembro</option>
-                </select>
-              </div>
-
-              <div class="w3-container w3-third select_bx">
-                <label for="tempo-voo">Tempo de voo</label>
-                <div class="input_field"><span class="box1"><i class='bx bxs-plane-alt'></i></span>
-                  <input type="time" name="tempo_voo" id="tempo_voo" />
-                </div>
-              </div>
-            </div>
-
-            <div class="w3-row w3-border insert_bx">
-
-              <div class="w3-container w3-third select_bx">
-                <label for="partida">Partida:</label>
-                <div class="input_field"> <span class="box1"><i class='bx bxs-plane-take-off'></i></span>
-                  <input type="text" name="partida" id="partida" />
+              <div class="w3-container w3-half select_bx">
+                <label for="local">Local</label>
+                <div class="input_field"> <span class="box1"><i class='bx bx-map-pin'></i></span>
+                  <input type="text" name="local" id="local" />
                 </div>
               </div>
 
-              <div class="w3-container w3-third select_bx">
-                <label for="destino">Destino:</label>
-                <div class="input_field"> <span class="box1"><i class='bx bxs-plane-land'></i></span>
-                  <input type="text" name="destino" id="destino" />
+
+              <div class="teste">
+
+              </div>
+
+              <div class="w3-container w3-half">
+              <select class="select_sol"   class="form_solicitantes" name="solicitante" id="solicitante">
+                    <option value="sol">Solicitante</option>
+                    <option value="Pedro">Pedro</option>
+                    <option value="Ivan">Ivan</option>
+                    <option value="Charles">Charles</option>
+                    <option value="Blue Sky">Blue Sky</option>
+                  </select>
+              </div>
+
+
+              <div class="w3-container w3-half select_bx">
+                <label for="notaf">NF:</label>
+                <div class="input_field"> <span class="box1"><i class='bx bx-image-add'></i></span>
+                  <input type="number" name="nf" id="nf" />
                 </div>
               </div>
 
-              <div class="w3-container w3-third select_bx select-cor">
-                <select name="solicitante" id="solicitante">
-                  <option value="sol">Solicitante</option>
-                  <option value="Pedro">Pedro</option>
-                  <option value="Ivan">Ivan</option>
-                  <option value="Charles">Charles</option>
-                  <option value="Pedro, Ivan">Pedro, Ivan</option>
-                  <option value="Pedro, Charles">Pedro, Charles</option>
-                  <option value="Ivan, Charles">Ivan, Charles</option>
-                  <option value="Ivan, Charles, Pedro">Ivan, Charles, Pedro</option>
-                  <option value="Blue Sky">Blue Sky</option>
-                </select>
+              <div class="w3-container w3-half select_bx">
+                <label for="venc">Vencimento</label>
+                <div class="input_field"> <span class="box1"><i class='bx bxs-calendar'></i></span>
+                  <input type="date" name="data_venc" id="data_venc" />
+                </div>
               </div>
 
-            </div>
+              <div class="w3-container w3-half select_bx">
+                <label for="valor-abast">Valor</label>
+                <div class="input_field"> <span class="box1"><i class='bx bx-wallet'></i></span>
+                  <input type="number" name="valor_abast" id="valor_abast" />
+                </div>
 
-            <div class="w3-row w3-border insert_bx">
+              </div>
 
-              <div class="w3-container w3-third select_bx button-rel">
-                <input class="button" id="cad-voo" type="submit" name="cadastrar-btn" value="ENVIAR" />
+              <div class="w3-container w3-half select_bx">
+                <input class="button" id="action_cad_campus_lab" type="submit" name="cadastrar-btn" value="ENVIAR" />
               </div>
 
             </div>
             <?php
             if (isset($_POST["cadastrar-btn"])) {
               if (
-                !empty($_POST["data_voo"])
-                AND !empty($_POST["mes_voo"])
-                AND !empty($_POST["tempo_voo"])
-                AND !empty($_POST["partida"])
-                AND !empty($_POST["destino"])
-                AND !empty($_POST["solicitante"])
+                !empty($_POST["data_abast"])
+                and !empty($_POST["local"])
+                and !empty($_POST["solicitante"])
+                and !empty($_POST["nf"])
+                and !empty($_POST["data_venc"])
+                and !empty($_POST["valor_abast"])
               ) {
-                $data_voo = $_POST['data_voo'];
-                $mes_voo = $_POST['mes_voo'];
-                $tempo_voo = $_POST['tempo_voo'] . ":00";
-                $partida = mb_strtoupper($_POST['partida']);
-                $destino = mb_strtoupper($_POST['destino']);
+                $data_abast = $_POST['data_abast'];
+                $local = mb_strtoupper($_POST['local']);
                 $solicitante = $_POST['solicitante'];
+                $nf = "NF " . $_POST['nf'];
+                $data_venc = $_POST['data_venc'];
+                $valor_abast = $_POST['valor_abast'];
+                
 
-                $inserir = "INSERT INTO horas_voadas(data_voo, mes, partida, destino, solicitante, tempo_voo) VALUES ('$data_voo', '$mes_voo', '$partida', '$destino', '$solicitante', '$tempo_voo')";
+                $inserir = "INSERT INTO abastecimentos(data_abastecimento, local, solicitante, nf, data_vencimento, valor) VALUES ('$data_abast', '$local', '$solicitante', '$nf', '$data_venc', $valor_abast)";
                 $query = mysqli_query($mysqli, $inserir) or die(mysqli_error($mysqli));
 
                 echo "<p style='color: green; font-size: 16px;'>Cadastro efetuado com sucesso!</p>";
@@ -179,6 +168,7 @@ include_once ("session_login.php");
             ?>
           </div>
       </div>
+
 
     </section>
 

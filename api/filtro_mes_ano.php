@@ -43,7 +43,8 @@ session_start();
         </select>
         
         <br><br>
-        <input type="submit" value="enviar" name="btn-enviar">
+        <input type="submit" value="Ir à página principal" name="btn-enviar">
+        <input type="submit" value="Ir à página financeira" name="btn-enviar2">
     </form>
     
     <?php
@@ -62,6 +63,23 @@ session_start();
             }
 
             header("Location: index.php");
+        }
+
+        if (isset($_POST['btn-enviar2'])) {
+            $_SESSION['mes'] = $_POST['mes'];
+            $_SESSION['ano'] = $_POST['ano'];
+
+            if ($_SESSION['mes'] != "todos") {
+                if ($_SESSION['mes'] - 1 == 0) {
+                    $_SESSION['mes_anterior'] = 12;
+                } else {
+                    $_SESSION['mes_anterior'] = $_SESSION['mes'] - 1;
+                }
+            } else {
+                $_SESSION['mes_anterior'] = "todos";
+            }
+
+            header("Location: balanco.php");
         }
     ?>
 </body>
