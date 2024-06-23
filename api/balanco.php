@@ -1,9 +1,11 @@
 <?php
-include_once ("conexao.php");
-
 $mes = 'todos';
 $ano = 'todos';
 $mes_anterior = 'todos';
+
+include_once ("calculo_balanco.php");
+
+$soma_gastos = -1 * ($gasto_fixo - $gasto_var);
 
 ?>
 
@@ -46,39 +48,29 @@ $mes_anterior = 'todos';
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5/main.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
       var data = google.visualization.arrayToDataTable([
-        ["Element", "Density", { role: "style" }],
-        ["Copper", 8.94, "#b87333"],
-        ["Silver", 10.49, "silver"],
-        ["Gold", 19.30, "gold"],
-        ["Platinum", 21.45, "color: #e5e4e2"]
+        ['Valores', 'Hours per Day'],
+        ['Total Mês', <?php echo abs($balanco_mensal)?>],
+        ['Gastos', <?php echo $soma_gastos?>],
+        ['Total', <?php echo abs($balanco_total)?>],
+        ['Receitas', <?php echo $receita?>]
       ]);
 
-      var view = new google.visualization.DataView(data);
-      view.setColumns([0, 1,
-        {
-          calc: "stringify",
-          sourceColumn: 1,
-          type: "string",
-          role: "annotation"
-        },
-        2]);
-
       var options = {
-        title: "Density of Precious Metals, in g/cm^3",
-        width: 600,
-        height: 400,
-        bar: { groupWidth: "95%" },
-        legend: { position: "none" },
+        title: '',
+        pieHole: 0.4,
       };
-      var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
-      chart.draw(view, options);
+
+      var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+      chart.draw(data, options);
     }
   </script>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var calendarEl = document.getElementById('calendar');
@@ -283,6 +275,10 @@ $mes_anterior = 'todos';
               $mes_anterior = "todos";
             }
           }
+
+          $_SESSION['mes_finac'] = $mes;
+          $_SESSION['ano_financ'] = $ano;
+          $_SESSION['mes_anterior_financ'] = $mes_anterior;
           ?>
 
         </div>
@@ -531,7 +527,7 @@ $mes_anterior = 'todos';
             <h5 class="card-title ">Balanço</h5>
 
             <!-- Grafico -->
-            <div id="donutchart" style="width: 275px; height: 300px;"></div>
+            <div id="donutchart" style="width: 275px; height: 250px;"></div>
             <!-- End grafico -->
           </div>
         </div>
