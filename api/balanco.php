@@ -276,7 +276,7 @@ $soma_gastos = -1 * ($gasto_fixo - $gasto_var);
             }
           }
 
-          $_SESSION['mes_finac'] = $mes;
+          $_SESSION['mes_financ'] = $mes;
           $_SESSION['ano_financ'] = $ano;
           $_SESSION['mes_anterior_financ'] = $mes_anterior;
           ?>

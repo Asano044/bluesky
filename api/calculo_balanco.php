@@ -2,9 +2,23 @@
 include_once("conexao.php");
 session_start();
 
-$mes = $_SESSION["mes_financ"];
-$ano = $_SESSION["ano_financ"];
-$mes_anterior = $_SESSION["mes_anterior_financ"];
+if ($_SESSION['mes_financ'] == null) {
+  $mes = 'todos';
+} else {
+  $mes = $_SESSION["mes_financ"];
+}
+
+if ($_SESSION['ano_financ'] == null) {
+  $ano = 'todos';
+} else {
+  $ano = $_SESSION["ano_financ"];
+}
+
+if ($_SESSION['mes_anterior_financ'] == null) {
+  $mes_anterior = 'todos';
+} else {
+  $mes_anterior = $_SESSION["mes_anterior_financ"];
+}
 
 
 if ($mes != "todos" and $ano != "todos") {

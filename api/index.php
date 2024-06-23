@@ -2,16 +2,9 @@
 include_once ("calculo_horas.php");
 include_once ('porcentagem_pessoas.php');
 
-if ($mes == null) {
-  $mes = 'todos';
-}
-if ($ano == null) {
-  $ano = 'todos';
-}
-
-if ($_SESSION['mes_anterior'] == null) {
-  $_SESSION['mes_anterior'] = 'todos';
-}
+$mes = 'todos';
+$ano = 'todos';
+$mes_anterior = 'todos';
 ?>
 
 <!DOCTYPE html>
@@ -334,9 +327,6 @@ if ($_SESSION['mes_anterior'] == null) {
                 $mes = $_GET['mes_voo'];
                 $ano = $_GET['ano_voo'];
 
-                $_SESSION['mes'] = $mes;
-                $_SESSION['ano'] = $ano;
-
                 if ($_SESSION['mes'] != "todos") {
                   if ($_SESSION['mes'] - 1 == 0) {
                     $_SESSION['mes_anterior'] = 12;
@@ -347,6 +337,9 @@ if ($_SESSION['mes_anterior'] == null) {
                   $_SESSION['mes_anterior'] = "todos";
                 }
               }
+              
+              $_SESSION['mes'] = $mes;
+              $_SESSION['ano'] = $ano;
               ?>
             </div>
 

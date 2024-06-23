@@ -148,7 +148,8 @@ include_once ("session_login.php");
 
               <div class="w3-container w3-third select_bx button-rel">
                 <input class="button" id="cad-voo" type="submit" name="cadastrar-btn" value="ENVIAR" />
-              </div>
+                <button class="btn btn-primary"><a href="editar/editar_formulario.php">Editar</a></button>
+                </div>
 
             </div>
             <?php
