@@ -1,5 +1,9 @@
 <?php
-include_once ("calculo_balanco.php");
+include_once ("conexao.php");
+
+$mes = 'todos';
+$ano = 'todos';
+$mes_anterior = 'todos';
 
 ?>
 
@@ -41,31 +45,40 @@ include_once ("calculo_balanco.php");
   <!-- JS Files -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5/main.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-  
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['Task', 'Hours per Day'],
-          ['Work',     11],
-          ['Eat',      2],
-          ['Commute',  2],
-          ['Watch TV', 2],
-          ['Sleep',    7]
-        ]);
 
-        var options = {
-          title: 'My Daily Activities',
-          pieHole: 0.4,
-        };
+  <script type="text/javascript">
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+        ["Element", "Density", { role: "style" }],
+        ["Copper", 8.94, "#b87333"],
+        ["Silver", 10.49, "silver"],
+        ["Gold", 19.30, "gold"],
+        ["Platinum", 21.45, "color: #e5e4e2"]
+      ]);
 
-        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-        chart.draw(data, options);
-      }
-    </script>
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+        {
+          calc: "stringify",
+          sourceColumn: 1,
+          type: "string",
+          role: "annotation"
+        },
+        2]);
 
+      var options = {
+        title: "Density of Precious Metals, in g/cm^3",
+        width: 600,
+        height: 400,
+        bar: { groupWidth: "95%" },
+        legend: { position: "none" },
+      };
+      var chart = new google.visualization.BarChart(document.getElementById("barchart_values"));
+      chart.draw(view, options);
+    }
+  </script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var calendarEl = document.getElementById('calendar');
@@ -219,307 +232,353 @@ include_once ("calculo_balanco.php");
         <div class="col-lg-8">
           <form method="get" action="balanco.php">
             <div class="filter_balanco">
-                <div class="mes">
-                  <h3>Selecione o mês</h3>
-                  <select class="form-select form-select-sm mt-3" name="mes_financ">
-                    <option value="todos">Todos</option>
-                    <?php
-                    $consulta_mes = "SELECT DISTINCTROW(MONTH(data_financeiro)) AS mes_financeiro FROM financeiro";
-                    $query_mes = mysqli_query($mysqli, $consulta_mes) or die(mysqli_error($mysqli));
-                    while ($linha = mysqli_fetch_array($query_mes)) {
-                      ?>
-                      <option value="<?php echo $linha['mes_financeiro'] ?>"><?php echo $linha['mes_financeiro'] ?>
-                      </option>
-                      <?php
-                    }
+              <div class="mes">
+                <h3>Selecione o mês</h3>
+                <select class="form-select form-select-sm mt-3" name="mes_financ">
+                  <option value="todos">Todos</option>
+                  <?php
+                  $consulta_mes = "SELECT DISTINCTROW(MONTH(data_financeiro)) AS mes_financeiro FROM financeiro";
+                  $query_mes = mysqli_query($mysqli, $consulta_mes) or die(mysqli_error($mysqli));
+                  while ($linha = mysqli_fetch_array($query_mes)) {
                     ?>
-                  </select>
-                </div>
-
-                <div class="ano">
-                  <h3>Selecione o ano</h3>
-                  <select class="form-select form-select-sm mt-3" name="ano_financ">
-                    <option value="todos">Todos</option>
+                    <option value="<?php echo $linha['mes_financeiro'] ?>"><?php echo $linha['mes_financeiro'] ?>
+                    </option>
                     <?php
-                    $consulta_ano = "SELECT DISTINCTROW(YEAR(data_financeiro)) AS ano_financeiro FROM financeiro";
-                    $query_ano = mysqli_query($mysqli, $consulta_ano) or die(mysqli_error($mysqli));
-                    while ($linha = mysqli_fetch_array($query_ano)) {
-                      ?>
-                      <option value="<?php echo $linha['ano_financeiro'] ?>"><?php echo $linha['ano_financeiro'] ?>
-                      </option>
-                      <?php
-                    }
-                    ?>
-                  </select>
-                </div>
-                <input type="submit" class="btn btn-outline-primary shadow-custom botao_sel" name="filtrar_btn">
-              </form>
-
-              <?php
-              if (isset($_GET['filtrar_btn'])) {
-                $mes = $_GET['mes_financ'];
-                $ano = $_GET['ano_financ'];
-
-                $_SESSION['mes'] = $mes;
-                $_SESSION['ano'] = $ano;
-              }
-              ?>
-
-            </div>
-
-            <div class="row">
-              <!-- Tabela despesas -->
-              <div class="col-12">
-                <div class="card recent-sales overflow-auto">
-                  <div class="card-body">
-                    <h5 class="card-title" style="color: red;">Tabela dos Gastos<span>| <?php echo "$mes/$ano" ?></span>
-                    </h5>
-                    <!-- Tabela com linhas listradas -->
-                    <table class="table datatable">
-                      <thead>
-                        <tr>
-                          <th><b>D</b>ata</th>
-                          <th>Descrição</th>
-                          <th>Tipo</th>
-                          <th>Valor</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                        if ($mes != "todos" and $ano != "todos") {
-                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo = 'FIXO' OR tipo = 'VARIAVEL' AND MONTH(data_financeiro) = $mes AND YEAR(data_financeiro) = $ano";
-                        } else if ($mes == "todos" and $ano != "todos") {
-                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo = 'FIXO' OR tipo = 'VARIAVEL' AND YEAR(data_financeiro) = $ano";
-                        } else if ($mes != "todos" and $ano == "todos") {
-                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo = 'FIXO' OR tipo = 'VARIAVEL' AND MONTH(data_financeiro) = $mes";
-                        } else {
-                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo = 'FIXO' OR TIPO = 'VARIAVEL'";
-                        }
-                        $query_financ = mysqli_query($mysqli, $consulta_financ) or die(mysqli_error($mysqli));
-                        $balanco = 0;
-                        while ($linha = mysqli_fetch_array($query_financ)) {
-                          $balanco += $linha['valor'];
-                          ?>
-                          <tr>
-                            <td><?php echo $linha['data_financeiro'] ?></td>
-                            <td><?php echo $linha['descricao'] ?></td>
-                            <td><?php echo $linha['tipo'] ?></td>
-                            <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
-                          </tr>
-                          <?php
-                        }
-                        ?>
-
-                        <td></td>
-                        <td colspan="3" style="text-align: right;"><b>TOTAL:
-                            <?php echo number_format($balanco, 2, ",", ".") ?></b></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div><!-- End Despesas Fixas -->
-
-              <!-- Tabela despesas -->
-              <div class="col-12">
-                <div class="card recent-sales overflow-auto">
-                  <div class="card-body">
-                    <h5 class="card-title" style="color: lightgreen;">Tabela das Receitas<span>| <?php echo "$mes/$ano" ?></span>
-                    </h5>
-                    <!-- Tabela com linhas listradas -->
-                    <table class="table datatable">
-                      <thead>
-                        <tr>
-                          <th><b>D</b>ata</th>
-                          <th>Descrição</th>
-                          <th>Tipo</th>
-                          <th>Valor</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <?php
-                        if ($mes != "todos" and $ano != "todos") {
-                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='RECEITA' MONTH(data_financeiro) = $mes AND YEAR(data_financeiro) = $ano";
-                        } else if ($mes == "todos" and $ano != "todos") {
-                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='RECEITA' YEAR(data_financeiro) = $ano";
-                        } else if ($mes != "todos" and $ano == "todos") {
-                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='RECEITA' MONTH(data_financeiro) = $mes";
-                        } else {
-                          $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='RECEITA'";
-                        }
-                        $query_financ = mysqli_query($mysqli, $consulta_financ) or die(mysqli_error($mysqli));
-                        $balanco = 0;
-                        while ($linha = mysqli_fetch_array($query_financ)) {
-                          $balanco += $linha['valor'];
-                          ?>
-                          <tr>
-                            <td><?php echo $linha['data_financeiro'] ?></td>
-                            <td><?php echo $linha['descricao'] ?></td>
-                            <td><?php echo $linha['tipo'] ?></td>
-                            <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
-                          </tr>
-                          <?php
-                        }
-                        ?>
-
-                        <td></td>
-                        <td colspan="3" style="text-align: right;"><b>TOTAL:
-                            <?php echo number_format($balanco, 2, ",", ".") ?></b></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div><!-- End Despesas Fixas -->
-
-
-              <div class="row">
-                <div class="col-lg-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title balanco">Balanço do Mês Anterior:</h5>
-
-                      <h3 class="vl_bal">R$ <?php echo number_format($balanco_anterior, 2, ",", ".") ?></h3>
-
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-lg-6">
-                  <div class="card">
-                    <div class="card-body">
-                      <h5 class="card-title balanco">Balanço desse Mês: </h5>
-
-                      <h3 class="vl_bal">R$ <?php echo number_format($balanco, 2, ",", '.') ?></h3>
-
-
-                    </div>
-                  </div>
-                </div>
+                  }
+                  ?>
+                </select>
               </div>
 
-
-            </div>
-        </div><!-- End Left side columns -->
-
-        <div class="col-lg-4">
-          <div class="container_calender">
-            <div id="calendar"></div>
-          </div>
-
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title ">Balanço</h5>
-
-              <!-- Grafico -->
-              <div id="donutchart" style="width: 900px; height: 500px;"></div>
-              
-              <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                  new Chart(document.querySelector('#barChart'), {
-                    type: 'bar',
-                    data: {
-                      labels: [
-                        <?php
-                        $mes_financ = "SELECT DISTINCTROW(MONTH(data_financeiro)) AS meses FROM financeiro";
-                        $query_meses = mysqli_query($mysqli, $mes_financ) or die(mysqli_error($mysqli));
-                        while ($linha = mysqli_fetch_array($query_meses)) {
-                          echo $linha['meses'];
-                        }
-                        ?>
-                      ],
-                      labels: ['Despesas', 'Receita', 'Mês', 'Total'],
-                      datasets: [{
-                        label: 'Balanço Total',
-                        data: [<?php echo $balanco_anterior ?>, <?php echo $balanco ?>,],
-                        backgroundColor: [
-                          <?php
-                          if ($balanco <= 0) {
-                            ?> '#973532',
-                            <?php
-                          } else {
-                            ?> '#325597',
-                            <?php
-                          }
-
-                          if ($balanco_anterior <= 0) {
-                            ?> '#973532',
-                            <?php
-                          } else {
-                            ?> '#325597',
-                            <?php
-                          }
-                          ?>
-                        ],
-                        borderColor: [
-                          'rgb(255, 99, 132)',
-                          'rgb(255, 159, 64)',
-                          'rgb(255, 205, 86)',
-                          'rgb(75, 192, 192)',
-                          'rgb(54, 162, 235)',
-                          'rgb(153, 102, 255)',
-                          'rgb(201, 203, 207)'
-                        ],
-                        borderWidth: 1
-                      }]
-                    },
-                    options: {
-                      scales: {
-                        y: {
-                          beginAtZero: true
-                        }
-                      }
-                    }
-                  });
-                });
-              </script>
-              <!-- End grafico -->
-            </div>
-          </div>
-
-          <!-- Card Mês Anterior -->
-          <div class="col-xxl-12">
-            <div class="card info-card sales-card">
-              <div class="card-body">
-                <h5 class="card-title">Balanço Total</h5>
-                <div class="d-flex align-items-center">
-                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                    <i class='bx bx-money'></i>
-                  </div>
-                  <div class="ps-3">
-                    <h6 id="balance-value"><?php echo number_format($balanco, 2, ",", '.'); ?></h6>
-                  </div>
-                </div>
+              <div class="ano">
+                <h3>Selecione o ano</h3>
+                <select class="form-select form-select-sm mt-3" name="ano_financ">
+                  <option value="todos">Todos</option>
+                  <?php
+                  $consulta_ano = "SELECT DISTINCTROW(YEAR(data_financeiro)) AS ano_financeiro FROM financeiro";
+                  $query_ano = mysqli_query($mysqli, $consulta_ano) or die(mysqli_error($mysqli));
+                  while ($linha = mysqli_fetch_array($query_ano)) {
+                    ?>
+                    <option value="<?php echo $linha['ano_financeiro'] ?>"><?php echo $linha['ano_financeiro'] ?>
+                    </option>
+                    <?php
+                  }
+                  ?>
+                </select>
               </div>
-            </div>
-          </div>
-        </div>
+              <input type="submit" class="btn btn-outline-primary shadow-custom botao_sel" name="filtrar_btn">
+          </form>
 
-
-
-        <div class="col-lg-12 observacao">
-          <h3>Observações: </h3>
           <?php
-          if ($mes != "todos" and $ano != "todos") {
-            $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='balanco' AND MONTH(data_obs) = $mes AND YEAR(data_obs) = $ano";
+          if (isset($_GET['filtrar_btn'])) {
+            $mes = $_GET['mes_financ'];
+            $ano = $_GET['ano_financ'];
 
-          } else if ($mes == "todos" and $ano != "todos") {
-            $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='balanco' AND YEAR(data_obs) = $ano";
-
-          } else if ($mes != "todos" and $ano == "todos") {
-            $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='balanco' AND MONTH(data_obs) = $mes";
-
-          } else {
-            $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='balanco'";
-          }
-          $query_obs = mysqli_query($mysqli, $consulta_obs) or die(mysqli_error($mysqli));
-          while ($linha = mysqli_fetch_array($query_obs)) {
-            echo "<p>$linha[comentario]</p>";
-
+            if ($mes != "todos") {
+              if ($mes - 1 == 0) {
+                $mes_anterior = 12;
+              } else {
+                $mes_anterior = $mes - 1;
+              }
+            } else {
+              $mes_anterior = "todos";
+            }
           }
           ?>
 
         </div>
+
+        <div class="row">
+          <!-- Tabela despesas -->
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                <h5 class="card-title" style="color: red;">Tabela dos Gastos Fixos<span>|
+                    <?php echo "$mes/$ano" ?></span>
+                </h5>
+                <!-- Tabela com linhas listradas -->
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th><b>D</b>ata</th>
+                      <th>Descrição</th>
+                      <th>Tipo</th>
+                      <th>Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    if ($mes != "todos" and $ano != "todos") {
+                      $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE MONTH(data_financeiro) = $mes AND YEAR(data_financeiro) = $ano AND tipo='FIXO'";
+                    } else if ($mes == "todos" and $ano != "todos") {
+                      $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE YEAR(data_financeiro) = $ano AND tipo='FIXO'";
+
+                    } else if ($mes != "todos" and $ano == "todos") {
+                      $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE MONTH(data_financeiro) = $mes AND tipo='FIXO'";
+
+                    } else {
+                      $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='FIXO'";
+                    }
+                    $query_financ = mysqli_query($mysqli, $consulta_financ) or die(mysqli_error($mysqli));
+                    $balanco = 0;
+                    while ($linha = mysqli_fetch_array($query_financ)) {
+                      $balanco += $linha['valor'];
+                      ?>
+                      <tr>
+                        <td><?php echo $linha['data_financeiro'] ?></td>
+                        <td><?php echo $linha['descricao'] ?></td>
+                        <td><?php echo $linha['tipo'] ?></td>
+                        <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
+                      </tr>
+                      <?php
+                    }
+                    ?>
+
+                    <td></td>
+                    <td colspan="3" style="text-align: right;"><b>TOTAL:
+                        <?php echo number_format($balanco, 2, ",", ".") ?></b></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><!-- End Despesas Fixas -->
+
+          <!-- Tabela despesas -->
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                <h5 class="card-title" style="color: red;">Tabela dos Gastos Variáveis<span>|
+                    <?php echo "$mes/$ano" ?></span>
+                </h5>
+                <!-- Tabela com linhas listradas -->
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th><b>D</b>ata</th>
+                      <th>Descrição</th>
+                      <th>Tipo</th>
+                      <th>Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    if ($mes != "todos" and $ano != "todos") {
+                      $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE MONTH(data_financeiro) = $mes AND YEAR(data_financeiro) = $ano AND tipo='VARIAVEL'";
+                    } else if ($mes == "todos" and $ano != "todos") {
+                      $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE YEAR(data_financeiro) = $ano AND tipo='VARIAVEL'";
+
+                    } else if ($mes != "todos" and $ano == "todos") {
+                      $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE MONTH(data_financeiro) = $mes AND tipo='VARIAVEL'";
+
+                    } else {
+                      $consulta_financ = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='VARIAVEL'";
+                    }
+                    $query_financ = mysqli_query($mysqli, $consulta_financ) or die(mysqli_error($mysqli));
+                    $balanco = 0;
+                    while ($linha = mysqli_fetch_array($query_financ)) {
+                      $balanco += $linha['valor'];
+                      ?>
+                      <tr>
+                        <td><?php echo $linha['data_financeiro'] ?></td>
+                        <td><?php echo $linha['descricao'] ?></td>
+                        <td><?php echo $linha['tipo'] ?></td>
+                        <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
+                      </tr>
+                      <?php
+                    }
+                    ?>
+
+                    <td></td>
+                    <td colspan="3" style="text-align: right;"><b>TOTAL:
+                        <?php echo number_format($balanco, 2, ",", ".") ?></b></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><!-- End Despesas Variáveis -->
+
+          <!-- Tabela despesas -->
+          <div class="col-12">
+            <div class="card recent-sales overflow-auto">
+              <div class="card-body">
+                <h5 class="card-title" style="color: lightgreen;">Tabela das Receitas<span>|
+                    <?php echo "$mes/$ano" ?></span>
+                </h5>
+                <!-- Tabela com linhas listradas -->
+                <table class="table datatable">
+                  <thead>
+                    <tr>
+                      <th><b>D</b>ata</th>
+                      <th>Descrição</th>
+                      <th>Tipo</th>
+                      <th>Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                    if ($mes != "todos" and $ano != "todos") {
+                      $consulta_receita = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='RECEITA' AND MONTH(data_financeiro) = $mes AND YEAR(data_financeiro) = $ano";
+                    } else if ($mes == "todos" and $ano != "todos") {
+                      $consulta_receita = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='RECEITA' AND YEAR(data_financeiro) = $ano";
+                    } else if ($mes != "todos" and $ano == "todos") {
+                      $consulta_receita = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='RECEITA' AND MONTH(data_financeiro) = $mes";
+                    } else {
+                      $consulta_receita = "SELECT data_financeiro, descricao, tipo, valor FROM financeiro WHERE tipo='RECEITA'";
+                    }
+                    $query_receita = mysqli_query($mysqli, $consulta_receita) or die(mysqli_error($mysqli));
+                    $soma = 0;
+                    while ($linha = mysqli_fetch_array($query_receita)) {
+                      $soma += $linha['valor'];
+                      ?>
+                      <tr>
+                        <td><?php echo $linha['data_financeiro'] ?></td>
+                        <td><?php echo $linha['descricao'] ?></td>
+                        <td><?php echo $linha['tipo'] ?></td>
+                        <td><?php echo number_format($linha['valor'], 2, ",", ".") ?></td>
+                      </tr>
+                      <?php
+                    }
+                    ?>
+
+                    <td></td>
+                    <td colspan="3" style="text-align: right;"><b>TOTAL:
+                        <?php echo number_format($soma, 2, ",", ".") ?></b></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div><!-- End Despesas variaveis -->
+
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title balanco">Balanço do Mês Anterior:</h5>
+
+                  <?php
+                  if ($mes != "todos" and $ano != "todos") {
+                    $consulta_financ = "SELECT SUM(valor) AS soma_valor FROM financeiro WHERE MONTH(data_financeiro) = $mes_anterior AND YEAR(data_financeiro) = $ano";
+
+                  } else if ($mes == "todos" and $ano != "todos") {
+                    $consulta_financ = "SELECT SUM(valor) AS soma_valor FROM financeiro WHERE YEAR(data_financeiro) = $ano";
+
+                  } else if ($mes != "todos" and $ano == "todos") {
+                    $consulta_financ = "SELECT SUM(valor) AS soma_valor FROM financeiro WHERE MONTH(data_financeiro) = $mes_anterior";
+
+                  } else {
+                    $consulta_financ = "SELECT SUM(valor) AS soma_valor FROM financeiro";
+                  }
+                  $query_balanco = mysqli_query($mysqli, $consulta_financ) or die(mysqli_error($mysqli));
+
+                  if (mysqli_num_rows($query_balanco) == 1) {
+                    while ($linha = mysqli_fetch_array($query_balanco)) {
+                      $balanco_anterior = $linha["soma_valor"];
+                    }
+                  }
+
+                  ?>
+
+                  <h3 class="vl_bal">R$ <?php echo number_format($balanco_anterior, 2, ",", ".") ?></h3>
+
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title balanco">Balanço desse Mês: </h5>
+
+                  <?php
+                  if ($mes != "todos" and $ano != "todos") {
+                    $consulta_balanco = "SELECT SUM(valor) as soma_valor FROM financeiro WHERE MONTH(data_financeiro) = $mes AND YEAR(data_financeiro) = $ano";
+
+                  } else if ($mes == "todos" and $ano != "todos") {
+                    $consulta_balanco = "SELECT SUM(valor) as soma_valor FROM financeiro WHERE YEAR(data_financeiro) = $ano";
+
+                  } else if ($mes != "todos" and $ano == "todos") {
+                    $consulta_balanco = "SELECT SUM(valor) as soma_valor FROM financeiro WHERE MONTH(data_financeiro) = $mes";
+
+                  } else {
+                    $consulta_balanco = "SELECT SUM(valor) as soma_valor FROM financeiro";
+                  }
+                  $query_balanco = mysqli_query($mysqli, $consulta_balanco) or die(mysqli_error($mysqli));
+                  while ($linha = mysqli_fetch_array($query_balanco)) {
+                    $balanco = $linha['soma_valor'];
+                  }
+                  ?>
+                  <h3 class="vl_bal">R$ <?php echo number_format($balanco, 2, ",", '.') ?></h3>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div><!-- End Left side columns -->
+
+      <div class="col-lg-4">
+        <div class="container_calender">
+          <div id="calendar"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title ">Balanço</h5>
+
+            <!-- Grafico -->
+            <div id="donutchart" style="width: 275px; height: 300px;"></div>
+            <!-- End grafico -->
+          </div>
+        </div>
+
+        <!-- Card Mês Anterior -->
+        <div class="col-xxl-12">
+          <div class="card info-card sales-card">
+            <div class="card-body">
+              <h5 class="card-title">Balanço Total</h5>
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <i class='bx bx-money'></i>
+                </div>
+                <div class="ps-3">
+                  <h6 id="balance-value"><?php echo number_format($balanco, 2, ",", '.'); ?></h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="col-lg-12 observacao">
+        <h3>Observações: </h3>
+        <?php
+        if ($mes != "todos" and $ano != "todos") {
+          $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='balanco' AND MONTH(data_obs) = $mes AND YEAR(data_obs) = $ano";
+
+        } else if ($mes == "todos" and $ano != "todos") {
+          $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='balanco' AND YEAR(data_obs) = $ano";
+
+        } else if ($mes != "todos" and $ano == "todos") {
+          $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='balanco' AND MONTH(data_obs) = $mes";
+
+        } else {
+          $consulta_obs = "SELECT comentario FROM observacao WHERE tipo='balanco'";
+        }
+        $query_obs = mysqli_query($mysqli, $consulta_obs) or die(mysqli_error($mysqli));
+        while ($linha = mysqli_fetch_array($query_obs)) {
+          echo "<p>$linha[comentario]</p>";
+
+        }
+        ?>
+
+      </div>
 
     </section>
 

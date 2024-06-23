@@ -258,8 +258,7 @@ if ($_SESSION['mes_anterior'] == null) {
                   <div class="icon_one">
                     <i class='bx bxs-chevrons-left'></i>
                   </div>
-                  <p class="title_card"><?php echo $total_horas_anterior;
-                  echo $_SESSION['mes'] ?></p>
+                  <p class="title_card"><?php echo $total_horas_anterior?></p>
                 </div>
               </div>
             </div>
