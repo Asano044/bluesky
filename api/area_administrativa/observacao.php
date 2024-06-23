@@ -110,6 +110,7 @@ include_once ("session_login.php");
 
               <div class="w3-container w3-half select_bx">
                 <input class="button" id="action_cad_campus_lab" type="submit" name="cadastrar-btn" value="ENVIAR" />
+                <button class="btn btn-primary"><a href="editar/observacao/editar_observacao.php">Editar</a></button>
               </div>
             </div>
 
@@ -124,7 +125,7 @@ include_once ("session_login.php");
               ) {
                 $data_obs = $_POST["data_obs"];
                 $tipo = $_POST['tipo'];
-                $editor = mb_strtoupper($_POST['editor']);
+                $editor = $_POST['editor'];
 
                 $inserir = "INSERT INTO observacao(data_obs, tipo, comentario) VALUES ('$data_obs', '$tipo', '$editor')";
                 $query = mysqli_query($mysqli, $inserir) or die(mysqli_error($mysqli));

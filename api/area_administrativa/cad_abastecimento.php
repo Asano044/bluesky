@@ -136,6 +136,7 @@ include_once("session_login.php");
 
               <div class="w3-container w3-half select_bx">
                 <input class="button" id="action_cad_campus_lab" type="submit" name="cadastrar-btn" value="ENVIAR" />
+                <button class="btn btn-primary"><a href="editar/abastecimento/editar_abastecimento.php">Editar</a></button>
               </div>
 
             </div>
