@@ -50,26 +50,33 @@ $soma_gastos = -1 * ($gasto_fixo - $gasto_var);
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <script type="text/javascript">
-    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.load('current', { 'packages': ['bar'] });
     google.charts.setOnLoadCallback(drawChart);
+
     function drawChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Valores', 'Hours per Day'],
-        ['Total Mês', <?php echo abs($balanco_mensal)?>],
-        ['Gastos', <?php echo $soma_gastos?>],
-        ['Total', <?php echo abs($balanco_total)?>],
-        ['Receitas', <?php echo $receita?>]
+        ['Mensal', 'Receita', 'Gastos', 'Balanço Mensal', 'Balanço Total'],
+        ['Mês', 
+        <?php echo $receita?>, 
+        <?php echo $soma_gastos?>, 
+        <?php echo $balanco_mensal?>, 
+        <?php echo $balanco_total?>],
       ]);
 
       var options = {
-        title: '',
-        pieHole: 0.4,
+        chart: {
+          title: '',
+          subtitle: '<?php echo "$mes / $ano"?>',
+        },
+        bars: 'horizontal' // Required for Material Bar Charts.
       };
 
-      var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
-      chart.draw(data, options);
+      var chart = new google.charts.Bar(document.getElementById('barchart_material'));
+
+      chart.draw(data, google.charts.Bar.convertOptions(options));
     }
   </script>
+
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -527,7 +534,7 @@ $soma_gastos = -1 * ($gasto_fixo - $gasto_var);
             <h5 class="card-title ">Balanço</h5>
 
             <!-- Grafico -->
-            <div id="donutchart" style="width: 275px; height: 250px;"></div>
+            <div id="barchart_material" style="width: 300px; height: 300px;"></div>
             <!-- End grafico -->
           </div>
         </div>

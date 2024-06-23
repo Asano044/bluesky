@@ -101,12 +101,12 @@ if (mysqli_num_rows($query_balanco) == 1) {
 
 // balanço mês anterior
 if ($mes != "todos" and $ano != "todos") {
-  $consulta_balanco_ant = "SELECT SUM(valor) AS soma_balanco_ant FROM financeiro WHERE MONTH(data_financeiro) = $mes_anteior AND YEAR(data_financeiro) = $ano";
+  $consulta_balanco_ant = "SELECT SUM(valor) AS soma_balanco_ant FROM financeiro WHERE MONTH(data_financeiro) = $mes_anterior AND YEAR(data_financeiro) = $ano";
 } else if ($mes == "todos" and $ano != "todos") {
   $consulta_balanco_ant = "SELECT SUM(valor) AS soma_balanco_ant FROM financeiro WHERE YEAR(data_financeiro) = $ano";
 
 } else if ($mes != "todos" and $ano == "todos") {
-  $consulta_balanco_ant = "SELECT SUM(valor) AS soma_balanco_ant FROM financeiro WHERE MONTH(data_financeiro) = $mes_anteior";
+  $consulta_balanco_ant = "SELECT SUM(valor) AS soma_balanco_ant FROM financeiro WHERE MONTH(data_financeiro) = $mes_anterior";
 
 } else {
   $consulta_balanco_ant = "SELECT SUM(valor) AS soma_balanco_ant FROM financeiro";
